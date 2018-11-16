@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 
-require('./assets/css/styles.css')
+require('./assets/css/styles.css');
 
 Vue.config.productionTip = false
 
