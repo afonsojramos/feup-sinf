@@ -1,28 +1,22 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <HelloWorld msg="Welcome to grao"/>
+    <h1>grão</h1>
+    <!--<img alt="Vue logo" src="./assets/logo.png">-->
+    <Homepage msg=""/>
+    <Footer/>
+    <div>Made with <i class="fas fa-heart"></i> in <a href="https://fe.up.pt">FEUP</a></div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Homepage from './components/Homepage.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Homepage,
+    Footer,
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
