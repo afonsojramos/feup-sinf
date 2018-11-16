@@ -1,22 +1,27 @@
 <template>
   <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <HelloWorld msg="Welcome to grao"/>
+    <!--<img alt="Vue logo" src="./assets/logo.png">-->
+    <Homepage msg="GRAO"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Homepage from './components/Homepage.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Homepage
   }
 }
 </script>
 
 <style>
+body {
+  background: rgb(82,73,43);
+  background: linear-gradient(-45deg, rgba(82,73,43,1) 0%, rgba(39,52,66,1) 100%);
+
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
