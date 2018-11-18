@@ -1,26 +1,28 @@
-@import url('https://fonts.googleapis.com/css?family=Elsie|Encode+Sans:300');
+@import url('https://fonts.googleapis.com/css?family=Elsie|Encode+Sans:300,400,700');
+
+:root {
+    --brown: #52492b;
+    --gold: #b09a64;
+    --medium: #666666;
+    --light: #d9d0c5;
+    --baby: #7d9da5;
+    --dark: #273442;
+}
 
 body {
-    font-family: 'Encode Sans', sans-serif;
-    background: rgb(82, 73, 43);
-    background: linear-gradient(-45deg, rgba(82, 73, 43, 1) 0%, rgba(39, 52, 66, 1) 100%);
+    background-image: linear-gradient(-45deg, rgba(82, 73, 43, 1) 0%, rgba(39, 52, 66, 1) 100%);
     background-attachment: fixed;
     background-repeat: no-repeat;
-}
-
-h1 {
-    color: white;
-    font-family: 'Elsie', cursive !important;
-    font-size: 8rem;
-    font-weight: 200;
-}
-
-#app {
-    font-family: 'Encode Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: white;
-    font-size: 2rem;
-    margin-top: 60px;
+    font-family: 'Encode Sans', sans-serif;
+    color: var(--light);
+    margin:0;
+}
+
+.logo{
+    color: var(--light);
+    font-family: 'Elsie', cursive !important;
+    font-weight: 400;
+    font-size:6em;
 }
