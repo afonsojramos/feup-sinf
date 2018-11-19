@@ -34,5 +34,23 @@ p {
 
 }
 
+/***MOBILE***/
+@media only screen and (max-width: 675px) {
+
+ div.footer{
+    padding-left:2%;
+    padding-right:2%;
+  }
+}
+
+@media only screen and (min-width: 675px) and (max-width: 1300px) {
+
+ div.footer{
+    padding-left:10%;
+    padding-right:10%;
+  }
+}
+
+
 
 </style>

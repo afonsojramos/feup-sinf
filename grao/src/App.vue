@@ -21,7 +21,34 @@ export default {
   }
 }
 </script>
-
 <style scoped>
+
+#app div:nth-child(2){
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+/***MOBILE***/
+@media only screen and (max-width: 675px) {
+
+  #app div:nth-child(2){
+      padding-left:2%;
+  }
+
+  #app div:nth-child(2){
+      padding-right:2%;
+  }
+}
+
+@media only screen and (min-width: 675px) and (max-width: 1300px) {
+
+  #app div:nth-child(2){
+      padding-left:10%;
+  }
+
+  #app div:nth-child(2){
+      padding-right:10%;
+  }
+}
 
 </style>

@@ -77,10 +77,10 @@
         max-width: 300px;
     }
 
-    .orders {
+    /*.orders {
         padding-left: 20%;
         padding-right: 20%;
-    }
+    }*/
 
 </style>
 
