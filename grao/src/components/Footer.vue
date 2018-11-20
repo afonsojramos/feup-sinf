@@ -1,4 +1,4 @@
-<template class="test">
+<template>
   <div class="footer">
     <p>For Information Systems, Faculty of Engineering of the University of Porto</p>
   </div>

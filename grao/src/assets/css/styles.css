@@ -6,6 +6,7 @@
     --medium: #666666;
     --light: #d9d0c5;
     --baby: #7d9da5;
+    --babyAlpha: #7d9da52a;
     --dark: #273442;
 }
 
@@ -20,7 +21,7 @@ body {
     margin:0;
 }
 
-.logo{
+.logo, .mobileLogo{
     color: var(--light);
     font-family: 'Elsie', cursive !important;
     font-weight: 400;

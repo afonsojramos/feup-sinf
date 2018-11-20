@@ -7,6 +7,7 @@
             <span class="lnr lnr-download"></span>
         </div>
         <h1 class="logo">grão</h1>
+        <h1 class="mobileLogo">g</h1>
         <div class="nav_icons">
             <span class="lnr lnr-map"></span>
             <span class="lnr lnr-power-switch"></span>
@@ -64,14 +65,19 @@ div.nav_orders span{
     display:none;
 }
 
-.logo{
+.logo, .mobileLogo{
     margin-right: 0.4em;
     margin-left:0.4em;
     margin-top:1em;
     transition: 0.25s;
 }
 
-.logo:hover{
+.mobileLogo{
+    display: none;
+}
+
+
+.logo:hover, .mobileLogo:hover{
     color:var(--gold);
     cursor: pointer;
 }
@@ -118,6 +124,14 @@ span:hover{
     div.nav_icons{
        padding-right:2%;
     }
+
+    .logo{
+        display:none;
+    }
+
+    .mobileLogo{
+        display:block;
+    }
 }
 
 @media only screen and (min-width: 675px) and (max-width: 1300px) {
@@ -128,5 +142,6 @@ span:hover{
     div.nav_icons{
        padding-right:10%;
     }
+
 }
 </style>

@@ -1,22 +1,24 @@
 <template>
   <div id="app">
     <Navbar/>
-    <Orders msg="Client"/>
+    <!--<Orders msg="Client"/>-->
+    <Route/>
     <Footer/>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
-// import Homepage from './components/Homepage.vue'
-import Orders from './components/Orders.vue'
+//import Orders from './components/Orders.vue'
+import Route from './components/Route.vue'
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
-    Orders,
+    //Orders,
+    Route,
     Footer,
   }
 }
@@ -26,6 +28,7 @@ export default {
 #app div:nth-child(2){
   padding-left: 20%;
   padding-right: 20%;
+  margin-top:2em;
 }
 
 /***MOBILE***/
