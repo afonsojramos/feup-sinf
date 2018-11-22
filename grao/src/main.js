@@ -1,11 +1,8 @@
 import Vue from 'vue'
+import './plugins/vuetify'
 import App from './App.vue'
-import VueMaterial from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
 
 require('./assets/css/styles.css');
-
-Vue.use(VueMaterial);
 
 Vue.config.productionTip = false;
 

@@ -1,24 +1,24 @@
 <template>
   <div id="app">
     <Navbar/>
-    <!--<Orders msg="Client"/>-->
-    <Route/>
+    <Orders/>
+    <!-- <Route/> -->
     <Footer/>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
-//import Orders from './components/Orders.vue'
-import Route from './components/Route.vue'
+import Orders from './components/Orders.vue'
+// import Route from './components/Route.vue'
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
-    //Orders,
-    Route,
+    Orders,
+    // Route,
     Footer,
   }
 }

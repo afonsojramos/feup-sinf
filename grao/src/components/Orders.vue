@@ -1,87 +1,91 @@
 <template>
-    <div class="orders">
-        <md-table v-model="searched" md-sort="name" md-sort-order="asc" md-fixed-header>
-            <md-table-toolbar>
-                <div class="md-toolbar-section-start">
-                    <h1 class="md-title">{{msg}} Orders</h1>
-                </div>
-
-                <md-field md-clearable class="md-toolbar-section-end">
-                <md-input placeholder="Search by id..." v-model="search" @input="searchOnTable" />
-                </md-field>
-            </md-table-toolbar>
-
-            <md-table-empty-state
-                md-label="No orders found"
-                :md-description="`No order found for this '${search}' query. Try a different id.`">
-                <md-button class="md-primary md-raised" @click="newUser">ignorem este butão</md-button>
-            </md-table-empty-state>
-
-            <md-table-row slot="md-table-row" slot-scope="{ item }">
-                <md-table-cell md-label="#" md-sort-by="number" md-numeric>{{ item.number }}</md-table-cell>
-                <md-table-cell md-label="id" md-sort-by="id">{{ item.id }}</md-table-cell>
-                <md-table-cell md-label="Request Date" md-sort-by="request_date">{{ item.request_date }}</md-table-cell>
-                <md-table-cell md-label="Arrival Date" md-sort-by="arrival_date">{{ item.arrival_date }}</md-table-cell>
-                <md-table-cell md-label="Status" md-sort-by="status">{{ item.status }}</md-table-cell>
-            </md-table-row>
-        </md-table>
-    </div>
+  <v-card dark>
+    <v-card-title>
+      Orders
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table v-model="selected"
+      :headers="headers"
+      :items="orders"
+      :search="search"
+      select-all
+      class="elevation-0"
+    >
+      <template slot="items" slot-scope="props">
+        <td>{{ props.item.number }}</td>
+        <td class="text-xs-right">{{ props.item.id }}</td>
+        <td class="text-xs-right">{{ props.item.request_date }}</td>
+        <td class="text-xs-right">{{ props.item.arrival_date }}</td>
+        <td class="text-xs-right">{{ props.item.status }}</td>
+        <td>
+            <v-checkbox
+            v-model="props.selected"
+            primary
+            hide-details
+            ></v-checkbox>
+      </td>
+      </template>
+      <v-alert slot="no-results" :value="true" color="error" icon="warning">
+        Your search for "{{ search }}" found no results.
+      </v-alert>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
-    const toLower = text => {
-        return text.toString().toLowerCase()
-    }
-
-    const searchByID = (items, term) => {
-        if (term) {
-            return items.filter(item => toLower(item.id).includes(toLower(term)))
-        }
-
-        return items
-    }
-
-    export default {
-        name: 'TableSearch',
-        props: {
-            msg: String
-        },
-        data: () => ({
-        search: null,
-        searched: [],
+  export default {
+    data () {
+      return {
+        search: '',
+        selected: [],
+        headers: [
+          {
+            text: '#',
+            align: 'right',
+            value: 'number'
+          },
+          { text: 'id', value: 'id' },
+          { text: 'Request Date', value: 'request_date' },
+          { text: 'Arrival Date', value: 'arrival_date' },
+          { text: 'Status', value: 'status' }
+        ],
         orders: [
-            { number: 1, id: 'RDA21DA1', request_date: '01-03-2018', arrival_date: '25-04-2018', status: 'partial' },
-            { number: 2, id: 'JRGE0YK4', request_date: '06-03-2018', arrival_date: '27-04-2018', status: 'total' },
-            { number: 3, id: 'P1EASD31', request_date: '03-03-2018', arrival_date: '26-04-2018', status: 'partial' },
-            { number: 4, id: 'TSDFS123', request_date: '02-03-2018', arrival_date: '25-04-2018', status: 'total' }
+            { value: false, number: 1, id: 'RDA21DA1', request_date: '01-03-2018', arrival_date: '25-04-2018', status: 'partial' },
+            { value: false, number: 2, id: 'JRGE0YK4', request_date: '06-03-2018', arrival_date: '27-04-2018', status: 'total' },
+            { value: false, number: 3, id: 'P1EASD31', request_date: '03-03-2018', arrival_date: '26-04-2018', status: 'partial' },
+            { value: false, number: 4, id: 'TSDFS123', request_date: '02-03-2018', arrival_date: '25-04-2018', status: 'total' }
         ]
-        }),
-        methods: {
-            newUser () {
-                window.alert('Noop')
-            },
-            searchOnTable () {
-                this.searched = searchByID(this.orders, this.search)
-            }
-        },
-        created () {
-            this.searched = this.orders
-        }
+      }
     }
+  }
 </script>
-
-
- <style lang="scss" scoped>
-  
-    .md-field {
-        max-width: 300px;
+<style>
+    div.v-card {
+        background-color: transparent !important;
+        border: 0;
+        box-shadow: none;
+        
     }
 
-    /*.orders {
-        padding-left: 20%;
-        padding-right: 20%;
-    }*/
+    /* .transparent > .table,
+    .transparent > .table__overflow > .table,
+    .transparent > .table > .datatable__actions {
+    background-color: transparent;
+    } */
+    table.v-datatable.v-table.theme--dark {
+        background-color: transparent !important;
+        color: var(--light);
+    }
+  
+    div.theme--dark.v-table, .theme--dark.v-datatable .v-datatable__actions {
+        background-color: transparent !important;
+    }
 
 </style>
-
-
