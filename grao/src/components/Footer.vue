@@ -43,7 +43,7 @@ p {
   }
 }
 
-@media only screen and (min-width: 675px) and (max-width: 1300px) {
+@media only screen and (min-width: 675px) and (max-width: 1500px) {
 
  div.footer{
     padding-left:10%;

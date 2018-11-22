@@ -43,7 +43,7 @@ export default {
   }
 }
 
-@media only screen and (min-width: 675px) and (max-width: 1300px) {
+@media only screen and (min-width: 675px) and (max-width: 1500px) {
 
   #app div:nth-child(2){
       padding-left:10%;
