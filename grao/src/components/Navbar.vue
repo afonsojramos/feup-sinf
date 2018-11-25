@@ -91,7 +91,7 @@ div.nav_logout:hover a {
 .logo {
   margin-right: 0.4em;
   margin-left: 0.4em;
-  margin-top: 1em;
+  margin-top: 0.2em;
   transition: 0.25s;
 }
 

@@ -17,8 +17,8 @@ export default {
 
 div.footer {
   position: fixed;
-  left: 0;
   bottom: 0;
+  left: 0;
   width: 100%;
   border-top: 0.1em solid #b09a64;
   margin: 0;  

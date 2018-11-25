@@ -1,25 +1,28 @@
 <template>
   <div id="app">
     <Navbar/>
-    <Orders/>
-    <!-- <Route/> -->
+    <!--<Homepage/>-->
+    <Orders msg="Client"/>
+    <!--<Route/>-->
     <Footer/>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
+//import Homepage from './components/Homepage.vue'
 import Orders from './components/Orders.vue'
-// import Route from './components/Route.vue'
+//import Route from './components/Route.vue'
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
     Navbar,
+    //Homepage,
     Orders,
-    // Route,
-    Footer,
+    //Route,
+    Footer
   }
 }
 </script>
@@ -29,7 +32,9 @@ export default {
   padding-left: 20%;
   padding-right: 20%;
   margin-top:2em;
+  padding-bottom: 2em;
 }
+
 
 /***MOBILE***/
 @media only screen and (max-width: 675px) {

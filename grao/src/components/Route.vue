@@ -1,7 +1,7 @@
 <template>
   <div class="route">
     
-    <div class=container>
+    <div class="infoContainer">
       <div class="left">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
         <p> A1 </p>
@@ -14,7 +14,7 @@
        </div>
     </div>
 
-    <div class=container>
+    <div class="infoContainer">
       <div class="left">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
         <p> A2 </p>
@@ -25,14 +25,14 @@
       </div>
     </div>
 
-    <div class=container>
+    <div class="infoContainer">
       <div class="left">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
         <p> A3 </p>
         <div class="line"></div>
       </div>
       <div class="products">
-         <p>Lorem ipsum dolor sit amet, an solum facilis assentior per.</p>
+         <p>Lorem ipsum dolor sit amet, an solum facilis assentior per. Lorem ipsum dolor sit amet, an solum facilis assentior per.</p>
       </div>
     </div>
 
@@ -48,10 +48,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div.container {
+div.infoContainer {
   width: 100%;
-  /*height: 15em;*/
-  /*display:flex;*/
   display: grid;
   grid-template-columns: 6em auto;
   grid-column-gap: 3em;
@@ -64,7 +62,6 @@ div.left {
   position: relative;
   height: 100%;
   width: 6em;
-  /*margin-right: 3em;*/
 }
 
 div.left .hexagon {
@@ -73,7 +70,11 @@ div.left .hexagon {
 
 div.left p {
   position: absolute;
-  top: 1.1em;
+
+  height: 2.7em;
+  line-height: 2.7em;
+  vertical-align: middle;
+
   width: 100%;
   margin: 0;
   font-weight: lighter;
@@ -83,27 +84,28 @@ div.left p {
 }
 
 div.line {
-  width: 52.5%;
-  border-right: 0.3em dotted var(--gold);
+  width: 51.5%;
+  border-right: 0.15em solid var(--gold);
   height: 100%;
 }
 
-div.container:last-child div.line {
+div.infoContainer:last-child div.line {
   display: none;
 }
 
 div.products {
-  /*width: 100%;*/
   background-color: var(--babyAlpha);
   border-top: 0.1em solid var(--baby);
   border-bottom: 0.1em solid var(--baby);
   margin-top: 2.5em;
-  font-size:20px;
+  font-size: 20px;
 }
 
-div.products p{
-  line-height: 1em;
+div.products p {
+  line-height: 1.5em;
   padding-right: 1em;
   padding-left: 1em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 }
 </style>
