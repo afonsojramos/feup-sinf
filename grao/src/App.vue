@@ -2,8 +2,8 @@
   <div id="app">
       <Navbar/>
       <!--<Homepage/>-->
-      <Orders msg="Client"/>
-      <!--<Route/>-->
+      <!--<Orders msg="Client"/>-->
+      <Route/>
       <Footer/>
   </div>
 </template>
@@ -11,8 +11,8 @@
 <script>
 import Navbar from './components/Navbar.vue'
 //import Homepage from './components/Homepage.vue'
-import Orders from './components/Orders.vue'
-//import Route from './components/Route.vue'
+//import Orders from './components/Orders.vue'
+import Route from './components/Route.vue'
 import Footer from './components/Footer.vue'
 
 export default {
@@ -20,8 +20,8 @@ export default {
   components: {
     Navbar,
     //Homepage,
-    Orders,
-    //Route,
+    //Orders,
+    Route,
     Footer
   }
 }

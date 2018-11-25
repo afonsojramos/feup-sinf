@@ -80,6 +80,10 @@ tr[active]{
     color: var(--light) !important;
 }
 
+tbody tr{
+    border-bottom: 0.1em solid var(--babyMedium) !important;
+}
+
 tbody tr:hover{
     background-color: var(--babyMedium) !important;
 }

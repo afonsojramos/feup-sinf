@@ -72,7 +72,7 @@ h1{
 }
 
 >>>tbody tr{
-  border-bottom: 0.1em solid var(--baby) !important;
+  
   color: var(--light) !important;
 }
 
