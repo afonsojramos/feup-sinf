@@ -9,14 +9,23 @@
         class="elevation-0"
       >
         <template slot="items" slot-scope="props">
-          <td>
-            <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
-          </td>
-          <td class="text-xs-center">{{ props.item.number }}</td>
-          <td class="text-xs-center">{{ props.item.id }}</td>
-          <td class="text-xs-center">{{ props.item.client }}</td>
-          <td class="text-xs-center">{{ props.item.request_date }}</td>
-          <td class="text-xs-center">{{ props.item.arrival_date }}</td>
+          <tr>
+            <td><v-checkbox v-model="props.selected" primary hide-details></v-checkbox></td>
+            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
+            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.request_date }}</td>
+            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.arrival_date }}</td>
+          </tr>
+          <tr class="expand" v-show="expanded[props.item.id]">
+            <td colspan="100%">
+              <v-expansion-panel>
+                <v-expansion-panel-content v-model="expanded[props.item.id]">
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </td>
+          </tr>
         </template>
       </v-data-table>
 
@@ -29,7 +38,7 @@
   export default {
     data () {
       return {
-        search: '',
+        expanded: {},
         selected: [],
         headers: [
           { text: '#', align: 'center', value: 'number'},
@@ -46,6 +55,13 @@
             { value: false, number: 4, id: 'TSDFS123', request_date: '02-03-2018', arrival_date: '25-04-2018', client: 'Sit' }
         ]
       }
+    },
+
+    created () {
+      this.orders.forEach(i => {
+        this.$set(this.expanded, i.id, false) 
+      })
+     //console.log(this.expanded)
     }
   }
 </script>
@@ -57,7 +73,25 @@ h1{
 
 >>>tbody tr{
   border-bottom: 0.1em solid var(--baby) !important;
+  color: var(--light) !important;
 }
 
+>>>ul{
+   box-shadow: none !important;
+}
+
+.theme--light.v-expansion-panel .v-expansion-panel__container{
+  background-color:transparent !important;
+  border:none;
+ 
+}
+
+tr.expand .expansion-panel {
+  box-shadow: none;
+}
+
+tr.expand .expansion-panel li {
+  border: none;
+}
 
 </style>
