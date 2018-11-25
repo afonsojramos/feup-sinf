@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <Navbar/>
-    <!--<Homepage/>-->
-    <Orders msg="Client"/>
-    <!--<Route/>-->
-    <Footer/>
+      <Navbar/>
+      <!--<Homepage/>-->
+      <Orders msg="Client"/>
+      <!--<Route/>-->
+      <Footer/>
   </div>
 </template>
 

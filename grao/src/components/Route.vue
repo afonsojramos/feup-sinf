@@ -1,53 +1,135 @@
 <template>
   <div class="route">
-    
-    <div class="infoContainer">
-      <div class="left">
-        <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
-        <p> A1 </p>
-        <div class="line"></div>
+    <h1> Picking Route </h1>
+    <div>
+      <div class="infoContainer">
+        <div class="left">
+          <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
+          <p> A1 </p>
+          <div class="line"></div>
+        </div>
+        <div class="products">
+          <v-data-table v-model="selected"
+            :headers="headers"
+            :items="a1"
+            item-key="product"
+            hide-actions
+            class="elevation-0">
+            <template slot="items" slot-scope="props">
+              <td> <v-checkbox v-model="props.selected" primary hide-details></v-checkbox> </td>
+              <td class="text-xs-center">{{ props.item.shelf }}</td>
+              <td class="text-xs-center">{{ props.item.product }}</td>
+              <td class="text-xs-center">{{ props.item.qnt}}</td>
+              <td class="text-xs-center">{{ props.item.order_id }}</td>
+              <td class="text-xs-center">{{ props.item.client }}</td>
+            </template>
+          </v-data-table>
+        </div>
       </div>
-      <div class="products">
-        <p>Lorem ipsum dolor sit amet, an solum facilis assentior per, posse novum omittantur et pri. Aliquid atomorum dissentias mei ne. Nec ea enim admodum. Iriure efficiendi te est. Ea pro sale disputando, ei apeirian convenire vis. Ius et justo ludus, consul mucius no qui, te delicata voluptatum sed. Ei autem ullum vel.
-          Lorem ipsum dolor sit amet, an solum facilis assentior per, posse novum omittantur et pri. Aliquid atomorum dissentias mei ne. Nec ea enim admodum. Iriure efficiendi te est.
-        </p>
-       </div>
+
+      <div class="infoContainer">
+        <div class="left">
+          <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
+          <p> A2 </p>
+          <div class="line"></div>
+        </div>
+         <div class="products">
+          <v-data-table v-model="selected"
+            :headers="headers"
+            :items="a2"
+            item-key="product"
+            hide-actions
+            class="elevation-0">
+            <template slot="items" slot-scope="props">
+              <td>
+                <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+              </td>
+              <td class="text-xs-center">{{ props.item.shelf }}</td>
+              <td class="text-xs-center">{{ props.item.product }}</td>
+              <td class="text-xs-center">{{ props.item.qnt}}</td>
+              <td class="text-xs-center">{{ props.item.order_id }}</td>
+              <td class="text-xs-center">{{ props.item.client }}</td>
+            </template>
+          </v-data-table>
+        </div>
+      </div>
+
+      <div class="infoContainer">
+        <div class="left">
+          <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
+          <p> A3 </p>
+          <div class="line"></div>
+        </div>
+        <div class="products">
+          <v-data-table v-model="selected"
+            :headers="headers"
+            :items="a3"
+            item-key="product"
+            hide-actions
+            class="elevation-0">
+            <template slot="items" slot-scope="props">
+              <td> <v-checkbox v-model="props.selected" primary hide-details></v-checkbox> </td>
+              <td class="text-xs-center">{{ props.item.shelf }}</td>
+              <td class="text-xs-center">{{ props.item.product }}</td>
+              <td class="text-xs-center">{{ props.item.qnt}}</td>
+              <td class="text-xs-center">{{ props.item.order_id }}</td>
+              <td class="text-xs-center">{{ props.item.client }}</td>
+            </template>
+          </v-data-table>
+        </div>
+      </div>
     </div>
 
-    <div class="infoContainer">
-      <div class="left">
-        <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
-        <p> A2 </p>
-        <div class="line"></div>
-      </div>
-      <div class="products">
-         <p>Lorem ipsum dolor sit amet, an solum facilis assentior per, posse novum omittantur et pri. Aliquid atomorum dissentias mei ne. Nec ea enim admodum. Iriure efficiendi te est. </p>
-      </div>
-    </div>
-
-    <div class="infoContainer">
-      <div class="left">
-        <img class="hexagon" alt="hexagon" src="../assets/hex.svg" />
-        <p> A3 </p>
-        <div class="line"></div>
-      </div>
-      <div class="products">
-         <p>Lorem ipsum dolor sit amet, an solum facilis assentior per. Lorem ipsum dolor sit amet, an solum facilis assentior per.</p>
-      </div>
-    </div>
-
+    <v-btn color="primary" round dark> Next </v-btn>
+ 
   </div>
 </template>
 
 <script>
 export default {
-  name: "Route",
-  props: {}
+  data () {
+      return {
+        search: '',
+        selected: [],
+        headers: [
+          { text: 'picked', sortable: false, align: 'center'},
+          { text: 'shelf', align: 'center', value: 'shelf' },
+          { text: 'product', align: 'center', value: 'product' },
+          { text: 'qnt', align: 'center', value: 'qnt' },
+          { text: 'order id', align: 'center', value: 'order_id' },
+          { text: 'client', align: 'center', value: 'client' }
+        
+        ],
+
+        a1: [
+            { value: false, shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
+            { value: false, shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
+            { value: false, shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: "Lorem", qnt: 1}
+        ],
+
+        a2: [
+            { value: false, shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
+            { value: false, shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
+            { value: false, shelf: 3, product: 'Adipiscing', order_id: 'P1EASD31', client: "Ipsum", qnt: 7},
+        ],
+
+        a3: [
+            { value: false, shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
+            { value: false, shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
+        ]
+      }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+h1{
+  font-weight: lighter;
+  margin-bottom: 1em;
+}
+
 div.infoContainer {
   width: 100%;
   display: grid;
@@ -94,11 +176,7 @@ div.infoContainer:last-child div.line {
 }
 
 div.products {
-  background-color: var(--babyAlpha);
-  border-top: 0.1em solid var(--baby);
-  border-bottom: 0.1em solid var(--baby);
-  margin-top: 2.5em;
-  font-size: 20px;
+  margin-bottom:3em;
 }
 
 div.products p {

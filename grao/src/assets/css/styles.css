@@ -3,9 +3,10 @@
 :root {
     --brown: #52492b;
     --gold: #b09a64;
-    --medium: #666666;
+    --medium: #777777;
     --light: #d9d0c5;
     --baby: #7d9da5;
+    --babyMedium: #7d9da55d;
     --babyAlpha: #7d9da52a;
     --dark: #273442;
 }
@@ -19,6 +20,10 @@ body {
     font-family: 'Encode Sans', sans-serif;
     color: var(--light);
     margin:0;
+    
+}
+
+html{
     overflow-y: auto;
 }
 
@@ -28,4 +33,53 @@ body {
     font-weight: 400;
     font-size:6em;
    
+}
+
+button{
+    background-color: var(--gold) !important;
+    font-weight:bold;
+    text-transform: none !important;
+    margin-top:1.3em !important;
+    float: right;
+  }
+
+  
+/**************TABLES**************/
+
+table{
+    background-color: transparent !important;
+}
+
+i{
+    color: var(--gold) !important;
+    font-weight: lighter !important;
+}
+
+th{
+    color: var(--gold) !important;
+    font-weight: bolder !important;
+}
+
+th.column.sortable.active,
+th.column.sortable.active > i{
+    color:var(--baby) !important;
+}
+
+tbody{
+    border-top: 0.1em solid var(--baby);
+    border-bottom:  0.1em solid var(--baby);
+    background-color: var(--babyAlpha) !important;
+}
+
+tr{
+    color: var(--medium) !important;
+}
+
+tr[active]{
+    background-color: transparent !important;
+    color: var(--light) !important;
+}
+
+tbody tr:hover{
+    background-color: var(--babyMedium) !important;
 }
