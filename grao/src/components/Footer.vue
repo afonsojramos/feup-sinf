@@ -21,7 +21,7 @@ div.footer {
   left: 0;
   width: 100%;
   border-top: 0.1em solid #b09a64;
-  margin: 0;  
+  margin: 0;
   padding-left:20%;
   padding-right: 20%;
 }
@@ -50,7 +50,5 @@ p {
     padding-right:10%;
   }
 }
-
-
 
 </style>

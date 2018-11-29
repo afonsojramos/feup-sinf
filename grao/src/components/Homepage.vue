@@ -1,29 +1,36 @@
 <template>
   <div class=homepage>
-    <div class="hexContainer">
-      <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
-      <span class="lnr lnr-upload"></span>
-      <h1>Client Orders</h1>
-    </div>
+    <router-link to="/orders">
+      <div class="hexContainer">
+        <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
+        <span class="lnr lnr-upload"></span>
+        <h1>Client Orders</h1>
+      </div>
+    </router-link>
     <div class="line"></div>
-    <div class="hexContainer">
-      <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
-      <span class="lnr lnr-download"></span>
-      <h1>Supplier Orders</h1>
-    </div>
+    <router-link to="/orders">
+      <div class="hexContainer">
+        <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
+        <span class="lnr lnr-download"></span>
+        <h1>Supplier Orders</h1>
+      </div>
+    </router-link>
     <div class="line"></div>
-    <div class="hexContainer">
-      <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
-      <span class="lnr lnr-map"></span>
-      <h1>Map</h1>
-    </div>
+    <router-link to="/orders">
+      <div class="hexContainer">
+        <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
+        <span class="lnr lnr-map"></span>
+        <h1>Map</h1>
+      </div>
+    </router-link>
     <div class="line"></div>
-    <div class="hexContainer">
-      <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
-      <span class="lnr lnr-power-switch"></span>
-      <h1>Logout</h1>
-    </div>
-    
+    <router-link to="/orders">
+      <div class="hexContainer">
+        <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
+        <span class="lnr lnr-power-switch"></span>
+        <h1>Logout</h1>
+      </div>
+    </router-link>
   </div>
 </template>
 
@@ -37,6 +44,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+a {
+  text-decoration: none;
+}
+
 div.homepage{
   height:65vh;
   display:flex;
@@ -45,14 +56,12 @@ div.homepage{
   justify-content: space-between;
 }
 
-
 div.line{
   height: 29vh;
   border-bottom: 0.3em solid var(--gold);
   flex-grow: 2;
   align-self: flex-start;
 }
-
 
 div.hexContainer{
   display: flex;
@@ -89,9 +98,7 @@ h1{
   padding-top: 0.5em;
 }
 
-
 @media only screen and (max-width: 850px) {
-  
   div.homepage{
     flex-direction: column;
     height: auto;

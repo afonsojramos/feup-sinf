@@ -81,45 +81,43 @@
     </div>
 
     <v-btn color="primary" round dark> Next </v-btn>
- 
   </div>
 </template>
 
 <script>
 export default {
   data () {
-      return {
-        search: '',
-        selected: [],
-        headers: [
-          { text: 'picked', sortable: false, align: 'center'},
-          { text: 'shelf', align: 'center', value: 'shelf' },
-          { text: 'product', align: 'center', value: 'product' },
-          { text: 'qnt', align: 'center', value: 'qnt' },
-          { text: 'order id', align: 'center', value: 'order_id' },
-          { text: 'client', align: 'center', value: 'client' }
-        
-        ],
+    return {
+      search: '',
+      selected: [],
+      headers: [
+        { text: 'picked', sortable: false, align: 'center' },
+        { text: 'shelf', align: 'center', value: 'shelf' },
+        { text: 'product', align: 'center', value: 'product' },
+        { text: 'qnt', align: 'center', value: 'qnt' },
+        { text: 'order id', align: 'center', value: 'order_id' },
+        { text: 'client', align: 'center', value: 'client' }
+      ],
 
-        a1: [
-            { value: false, shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
-            { value: false, shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
-            { value: false, shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: "Lorem", qnt: 1}
-        ],
+      a1: [
+        { value: false, shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+        { value: false, shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+        { value: false, shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: 'Lorem', qnt: 1 }
+      ],
 
-        a2: [
-            { value: false, shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
-            { value: false, shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
-            { value: false, shelf: 3, product: 'Adipiscing', order_id: 'P1EASD31', client: "Ipsum", qnt: 7},
-        ],
+      a2: [
+        { value: false, shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+        { value: false, shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+        { value: false, shelf: 3, product: 'Adipiscing', order_id: 'P1EASD31', client: 'Ipsum', qnt: 7 }
+      ],
 
-        a3: [
-            { value: false, shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: "Sit", qnt: 3},
-            { value: false, shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: "Dolor", qnt: 5},
-        ]
-      }
+      a3: [
+        { value: false, shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+        { value: false, shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 }
+      ]
+    }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
