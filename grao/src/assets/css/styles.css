@@ -20,10 +20,18 @@ body {
     font-family: 'Encode Sans', sans-serif;
     color: var(--light);
     margin:0;
-    
+    position: relative;
+    height: 100%;
+}
+
+#app {
+    min-height: 100%;
+    position: relative;
 }
 
 html{
+    position: relative;
+    height: 100%;
     overflow-y: auto;
 }
 

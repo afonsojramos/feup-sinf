@@ -16,22 +16,21 @@ export default {
 <style scoped>
 
 div.footer {
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  border-top: 0.1em solid #b09a64;
+  border-top: 0.1em solid var(--gold);
   margin: 0;
   padding-left:20%;
   padding-right: 20%;
 }
 
 p {
-  color: #b09a64;
+  color: var(--gold);
   font-size: 1em;
   margin-top:0.6em;
   margin-bottom:0.6em;
-
 }
 
 /***MOBILE***/
