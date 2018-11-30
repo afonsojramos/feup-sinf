@@ -3,7 +3,7 @@
 :root {
     --brown: #52492b;
     --gold: #b09a64;
-    --medium: #777777;
+    --medium: #868686;
     --light: #d9d0c5;
     --baby: #7d9da5;
     --babyMedium: #7d9da55d;
@@ -51,7 +51,12 @@ button{
     float: right;
   }
 
-  
+
+div#route-next-button {
+    margin-top: -2em;
+    margin-bottom: 6.5em;
+}  
+
 /**************TABLES**************/
 
 table{
@@ -76,11 +81,15 @@ th.column.sortable.active > i{
 tbody{
     border-top: 0.1em solid var(--baby);
     border-bottom:  0.1em solid var(--baby);
-    background-color: var(--babyAlpha) !important;
+    
+}
+
+tbody td{
+    background-color: var(--babyAlpha);
 }
 
 tr{
-    color: var(--medium) !important;
+    color: var(--medium);
 }
 
 tr[active]{
@@ -94,9 +103,16 @@ tbody tr{
 
 tbody tr:hover{
     background-color: var(--babyMedium) !important;
+    cursor: pointer;
 }
 
-div#route-next-button {
-    margin-top: -2em;
-    margin-bottom: 6.5em;
-}  
+tbody tr.expand:hover{
+    background-color: transparent !important;
+    cursor: default;
+}
+
+tbody tr.expand tr:hover{
+    background-color: transparent !important;
+    cursor: default;
+}
+
