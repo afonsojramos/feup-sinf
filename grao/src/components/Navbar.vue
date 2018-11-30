@@ -76,11 +76,19 @@ span {
   color: var(--gold);
 }
 
-div.nav_orders span {
+div.nav_orders {
   padding-right: 0.3em;
 }
 
-div.nav_supplier span {
+div.nav_supplier {
+  padding-left: 1em;
+}
+
+div.nav_icons {
+  padding-right: 0.3em;
+}
+
+div.nav_logout {
   padding-left: 1em;
 }
 
@@ -119,14 +127,6 @@ div.nav_icons {
   padding-bottom: 1em;
 }
 
-div.nav_icons span {
-  padding-right: 0.3em;
-}
-
-div.nav_logout span {
-  padding-left: 1em;
-}
-
 /***MOBILE***/
 @media only screen and (max-width: 1100px) {
   span#lnr {
@@ -137,11 +137,11 @@ div.nav_logout span {
     display: none;
   }
 
-  div.nav_supplier span {
+  div.nav_supplier {
     padding-left: 0.5em;
   }
 
-    div.nav_logout span {
+    div.nav_logout {
     padding-left: 0.5em;
   }
 }
