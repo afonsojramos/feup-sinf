@@ -1,35 +1,37 @@
 <template>
-    <div class="navbar">
-        <div class="nav_orders">
-          <router-link to="/orders">
-            <div class="nav_client">
-              <span class="lnr lnr-upload"></span>
-              <span class="nav_text">Client Orders</span>
-            </div>
-          </router-link>
-          <router-link to="/route">
-            <div  class="nav_supplier">
-              <span class="lnr lnr-download"></span>
-              <span class="nav_text">Supplier Orders</span>
-            </div>
-          </router-link>
+  <div class="navbar">
+    <div class="nav_orders">
+      <router-link v-if="this.$route.path !== '/'" to="/orders">
+        <div class="nav_client">
+          <span class="lnr lnr-upload"></span>
+          <span class="nav_text">Client Orders</span>
         </div>
-        <router-link to="/"><h1 class="logo">grão</h1></router-link>
-        <div class="nav_icons">
-          <router-link to="/">
-            <div  class="nav_map">
-              <span class="lnr lnr-map"></span>
-              <span class="nav_text">Map</span>
-            </div>
-          </router-link>
-          <router-link to="/">
-            <div  class="nav_logout">
-              <span class="lnr lnr-power-switch"></span>
-              <span class="nav_text">Logout</span>
-            </div>
-          </router-link>
+      </router-link>
+      <a><span v-if="this.$route.path === '/'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
+      <router-link v-if="this.$route.path !== '/'" to="/route">
+        <div class="nav_supplier">
+          <span class="lnr lnr-download"></span>
+          <span class="nav_text">Supplier Orders</span>
         </div>
+      </router-link>
     </div>
+    <router-link to="/"><h1 class="logo">grão</h1></router-link>
+    <div class="nav_icons">
+      <router-link v-if="this.$route.path !== '/'" to="/">
+        <div class="nav_map">
+          <span class="lnr lnr-map"></span>
+          <span class="nav_text">Map</span>
+        </div>
+      </router-link>
+      <a><span v-if="this.$route.path === '/'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
+      <router-link v-if="this.$route.path !== '/'" to="/">
+        <div class="nav_logout">
+          <span class="lnr lnr-power-switch"></span>
+          <span class="nav_text">Logout</span>
+        </div>
+      </router-link>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -141,7 +143,7 @@ div.nav_icons {
     padding-left: 0.5em;
   }
 
-    div.nav_logout {
+  div.nav_logout {
     padding-left: 0.5em;
   }
 }
