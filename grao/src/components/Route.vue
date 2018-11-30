@@ -80,7 +80,9 @@
       </div>
     </div>
 
-    <v-btn color="primary" round dark> Next </v-btn>
+    <div id="route-next-button">
+      <v-btn color="primary" round dark> Next </v-btn>
+    </div>
   </div>
 </template>
 
@@ -184,4 +186,5 @@ div.products p {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
+
 </style>

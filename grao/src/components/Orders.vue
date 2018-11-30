@@ -6,30 +6,31 @@
         :items="orders"
         select-all
         hide-actions
-        class="elevation-0"
-      >
-        <template slot="items" slot-scope="props">
-          <tr>
-            <td><v-checkbox v-model="props.selected" primary hide-details></v-checkbox></td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.request_date }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.arrival_date }}</td>
-          </tr>
-          <tr class="expand" v-show="expanded[props.item.id]">
-            <td colspan="100%">
-              <v-expansion-panel>
-                <v-expansion-panel-content v-model="expanded[props.item.id]">
-                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
+        class="elevation-0">
+      <template slot="items" slot-scope="props">
+        <tr>
+          <td><v-checkbox v-model="props.selected" primary hide-details></v-checkbox></td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.request_date }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.arrival_date }}</td>
+        </tr>
+        <tr class="expand" v-show="expanded[props.item.id]">
+          <td colspan="100%">
+            <v-expansion-panel>
+              <v-expansion-panel-content v-model="expanded[props.item.id]">
+                  <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
 
+    <div id="orders-next-button">
       <v-btn color="primary" round dark> Next </v-btn>
+    </div>
   </div>
 </template>
 

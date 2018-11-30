@@ -95,3 +95,8 @@ tbody tr{
 tbody tr:hover{
     background-color: var(--babyMedium) !important;
 }
+
+div#route-next-button {
+    margin-top: -2em;
+    margin-bottom: 6.5em;
+}  
