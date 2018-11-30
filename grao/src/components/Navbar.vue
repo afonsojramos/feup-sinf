@@ -3,12 +3,14 @@
         <div class="nav_orders">
           <router-link to="/orders">
             <div class="nav_client">
-              <span class="lnr lnr-upload"></span>Client Orders
+              <span class="lnr lnr-upload"></span>
+              <span class="nav_text">Client Orders</span>
             </div>
           </router-link>
           <router-link to="/route">
             <div  class="nav_supplier">
-              <span class="lnr lnr-download"></span>Supplier Orders
+              <span class="lnr lnr-download"></span>
+              <span class="nav_text">Supplier Orders</span>
             </div>
           </router-link>
         </div>
@@ -16,12 +18,14 @@
         <div class="nav_icons">
           <router-link to="/">
             <div  class="nav_map">
-              <span class="lnr lnr-map"></span>Map
+              <span class="lnr lnr-map"></span>
+              <span class="nav_text">Map</span>
             </div>
           </router-link>
           <router-link to="/">
             <div  class="nav_logout">
-              <span class="lnr lnr-power-switch"></span>Logout
+              <span class="lnr lnr-power-switch"></span>
+              <span class="nav_text">Logout</span>
             </div>
           </router-link>
         </div>
@@ -125,11 +129,11 @@ div.nav_logout span {
 
 /***MOBILE***/
 @media only screen and (max-width: 1100px) {
-  div.nav_orders span {
+  span#lnr {
     display: block;
   }
 
-  div.nav_orders a, div.nav_icons a {
+  .nav_text {
     display: none;
   }
 
