@@ -40,7 +40,7 @@
     </v-data-table>
 
     <div id="orders-next-button">
-      <v-btn color="primary" round dark> Next </v-btn>
+      <v-btn to="/route" color="primary" round dark> Next </v-btn>
     </div>
   </div>
 </template>

@@ -81,7 +81,7 @@
     </div>
 
     <div id="route-next-button">
-      <v-btn color="primary" round dark> Next </v-btn>
+      <v-btn to="/route" color="primary" round dark> Next </v-btn>
     </div>
   </div>
 </template>
