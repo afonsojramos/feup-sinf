@@ -1,6 +1,6 @@
 <template>
   <div class=homepage>
-    <router-link to="/orders">
+    <router-link to="/client/orders">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-upload"></span>
@@ -8,7 +8,7 @@
       </div>
     </router-link>
     <div class="line"></div>
-    <router-link to="/orders">
+    <router-link to="/supplier/orders">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-download"></span>
@@ -16,7 +16,7 @@
       </div>
     </router-link>
     <div class="line"></div>
-    <router-link to="/orders">
+    <router-link to="/">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-map"></span>
@@ -24,7 +24,7 @@
       </div>
     </router-link>
     <div class="line"></div>
-    <router-link to="/orders">
+    <router-link to="/">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-power-switch"></span>

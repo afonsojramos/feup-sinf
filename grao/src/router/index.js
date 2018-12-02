@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Homepage from '@/components/Homepage'
-import Orders from '@/components/Orders'
+import ClientOrders from '@/components/OrdersClient'
+import SupplierOrders from '@/components/OrdersSupplier'
 import Route from '@/components/Route'
 import Http404 from '@/components/Http404'
 
@@ -15,9 +16,14 @@ export default new Router({
       component: Homepage
     },
     {
-      path: '/orders',
-      name: 'Orders',
-      component: Orders
+      path: '/client/orders',
+      name: 'Client Orders',
+      component: ClientOrders
+    },
+    {
+      path: '/supplier/orders',
+      name: 'Supplier Orders',
+      component: SupplierOrders
     },
     {
       path: '/route',

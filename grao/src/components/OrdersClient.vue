@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <h1> Client Orders </h1>
+    <h1>Client Orders</h1>
     <v-data-table v-model="selected"
         :headers="ordersHeaders"
         :items="orders"
@@ -129,9 +129,11 @@ export default {
   methods: {
     handleCheckbox: function (event) {
       var tr = event.target.closest('tr')
-      if (tr.getAttribute('active') === 'true') {
+      if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
+        tr.getElementsByTagName('i').item(0).innerText = 'check_box_outline_blank'
         tr.removeAttribute('active')
-      } else {
+      } else if (tr.getAttribute('active') !== 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box_outline_blank') {
+        tr.getElementsByTagName('i').item(0).innerText = 'check_box'
         tr.setAttribute('active', 'true')
       }
     }

@@ -1,14 +1,14 @@
 <template>
   <div class="navbar">
     <div class="nav_orders">
-      <router-link v-if="this.$route.path !== '/'" to="/orders">
+      <router-link v-if="this.$route.path !== '/'" to="/client/orders">
         <div class="nav_client">
           <span class="lnr lnr-upload"></span>
           <span class="nav_text">Client Orders</span>
         </div>
       </router-link>
       <a><span v-if="this.$route.path === '/'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
-      <router-link v-if="this.$route.path !== '/'" to="/orders">
+      <router-link v-if="this.$route.path !== '/'" to="/supplier/orders">
         <div class="nav_supplier">
           <span class="lnr lnr-download"></span>
           <span class="nav_text">Supplier Orders</span>
