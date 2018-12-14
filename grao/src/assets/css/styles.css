@@ -52,6 +52,15 @@ a.v-btn{
     font-weight: 400;
 }
 
+button.v-btn{
+    background-color: var(--gold) !important;
+    font-weight:bold;
+    text-transform: none !important;
+    margin-top:1.3em !important;
+    float: right;
+    font-weight: 400;
+}
+
 div#route-next-button {
     margin-top: -2em;
     margin-bottom: 6.5em;

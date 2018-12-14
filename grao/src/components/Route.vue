@@ -81,7 +81,22 @@
     </div>
 
     <div id="route-next-button">
-      <v-btn to="/route" color="primary" round dark> Next </v-btn>
+      <!-- <v-btn to="/route" color="primary" round dark> Next </v-btn> -->
+      <template>
+        <v-layout justify-end>
+          <v-dialog v-model="dialog" hide-overlay dark max-width="290">
+            <v-btn slot="activator" color="primary" round dark>Next</v-btn>
+            <v-card>
+              <v-card-title class="headline">Are you sure you want to continue?</v-card-title>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" round dark @click="dialog = false">No</v-btn>
+                <v-btn color="primary" round dark @click="dialog = false">Yes</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-layout>
+      </template>
     </div>
   </div>
 </template>
@@ -90,6 +105,7 @@
 export default {
   data () {
     return {
+      dialog: false,
       search: '',
       selected: [],
       headers: [
