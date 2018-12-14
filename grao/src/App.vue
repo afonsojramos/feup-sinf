@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar/>
-    <router-view/>
+    <router-view @authenticated="setAuthenticated"/>
     <Footer/>
   </div>
 </template>
@@ -15,6 +15,25 @@ export default {
   components: {
     Navbar,
     Footer
+  },
+  data(){
+    return{
+      authenticated: false,
+       mockAccount: {
+            username: "grao",
+            password: "grao"
+        }
+    }
+  },
+  created() {
+    if(!this.authenticated) {
+        this.$router.replace({ name: "Login" });
+    }
+  },
+  methods:{
+    setAuthenticated(status) {
+      this.authenticated = status;
+    }
   }
 }
 

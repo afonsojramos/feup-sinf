@@ -43,7 +43,7 @@ html{
    
 }
 
-a.v-btn{
+.v-btn{
     background-color: var(--gold) !important;
     font-weight:bold;
     text-transform: none !important;
