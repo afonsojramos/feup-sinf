@@ -119,9 +119,9 @@ export default {
       ]
     }
   },
-  created() {
-    if(!this.$parent.authenticated) {
-        this.$router.replace({ name: "Login" });
+  created () {
+    if (!this.$parent.authenticated) {
+      this.$router.replace({ name: 'Login' })
     }
   }
 }

@@ -1,12 +1,11 @@
 <template>
   <div class="login">
-      
     <div class="header">
         <div class="line"></div>
         <h1 class="logo">grão</h1>
         <div class="line"></div>
     </div>
-    <div class="loginContainer"> 
+    <div class="loginContainer">
         <label for="username">username</label>
         <input type="text" id="username" name="username" v-model="input.username">
         <label for="password">password</label>
@@ -20,13 +19,13 @@
 export default {
   name: 'Login',
 
-  data(){
-      return {
-          input: {
-              username: "",
-              password: ""
-          }
-      }
+  data () {
+    return {
+        input: {
+            username: "",
+            password: ""
+        }
+    }
   },
 
   methods:{
@@ -34,6 +33,24 @@ export default {
         if(this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
             this.$emit("authenticated", true);
             this.$router.push({ name: "Home" });
+
+            const axios = require('axios')
+
+            axios({
+                method: 'post',
+                url: 'localhost:2018/WebApi/token',
+                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                data: {
+                    username : 'FEUP',
+                    password : 'qualquer1',
+                    company : 'DEMO',
+                    instance : 'DEFAULT',
+                    grandType : 'password',
+                    line : 'professional'
+                }
+            }).then(function (response) {
+                console.log(response);
+            });
         }
         else alert("The username and/or password is incorrect");
       }

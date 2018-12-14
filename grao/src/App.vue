@@ -16,7 +16,7 @@ export default {
     Navbar,
     Footer
   },
-  data(){
+  data () {
     return{
       authenticated: false,
        mockAccount: {
@@ -25,7 +25,7 @@ export default {
         }
     }
   },
-  created() {
+  created () {
     if(!this.authenticated) {
         this.$router.replace({ name: "Login" });
     }
