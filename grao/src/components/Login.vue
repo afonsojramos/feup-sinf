@@ -16,6 +16,8 @@
 </template>
 
 <script>
+const axios = require('axios')
+
 export default {
   name: 'Login',
 
@@ -34,22 +36,17 @@ export default {
             this.$emit("authenticated", true);
             this.$router.push({ name: "Home" });
 
-            const axios = require('axios')
-
             axios({
                 method: 'post',
-                url: 'localhost:2018/WebApi/token',
-                headers: { 'content-type': 'application/x-www-form-urlencoded' },
-                data: {
-                    username : 'FEUP',
-                    password : 'qualquer1',
-                    company : 'DEMO',
-                    instance : 'DEFAULT',
-                    grandType : 'password',
-                    line : 'professional'
-                }
+                url: 'http://localhost:2018/WebApi/token',
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded' 
+                },
+                data: "grant_type=password&username=FEUP&password=qualquer1&company=DEMO&instance=Default&line=professional",
             }).then(function (response) {
                 console.log(response);
+            }).catch(function (error)   {
+                console.log(error);
             });
         }
         else alert("The username and/or password is incorrect");
