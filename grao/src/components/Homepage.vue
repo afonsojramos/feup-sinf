@@ -16,7 +16,7 @@
       </div>
     </router-link>
     <div class="line"></div>
-    <router-link to="/">
+    <router-link to="/home">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-map"></span>
@@ -24,7 +24,7 @@
       </div>
     </router-link>
     <div class="line"></div>
-    <router-link to="/">
+    <router-link to="/home">
       <div class="hexContainer">
         <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
         <span class="lnr lnr-power-switch"></span>
@@ -37,7 +37,12 @@
 <script>
 export default {
   name: 'Homepage',
-  props: {}
+  props: {},
+   created() {
+    if(!this.$parent.authenticated) {
+        this.$router.replace({ name: "Login" });
+    }
+  }
 }
 </script>
 

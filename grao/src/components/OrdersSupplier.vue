@@ -120,6 +120,11 @@ export default {
   },
 
   created () {
+    
+    if(!this.$parent.authenticated) {
+        this.$router.replace({ name: "Login" });
+    }
+
     this.orders.forEach(i => {
       this.$set(this.expanded, i.id, false)
     })

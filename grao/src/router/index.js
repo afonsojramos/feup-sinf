@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Homepage from '@/components/Homepage'
+import Login from '@/components/Login'
 import ClientOrders from '@/components/OrdersClient'
 import SupplierOrders from '@/components/OrdersSupplier'
 import Route from '@/components/Route'
@@ -12,8 +13,19 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: {
+        name: 'Login'
+      }
+    },
+    {
+      path: '/home',
       name: 'Home',
       component: Homepage
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/client/orders',

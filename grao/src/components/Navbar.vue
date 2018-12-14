@@ -1,30 +1,30 @@
 <template>
-  <div class="navbar">
+  <div v-if="this.$route.path !== '/login'" class="navbar">
     <div class="nav_orders">
-      <router-link v-if="this.$route.path !== '/'" to="/client/orders">
+      <router-link v-if="this.$route.path !== '/home'" to="/client/orders">
         <div class="nav_client">
           <span class="lnr lnr-upload"></span>
           <span class="nav_text">Client Orders</span>
         </div>
       </router-link>
-      <a><span v-if="this.$route.path === '/'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
-      <router-link v-if="this.$route.path !== '/'" to="/supplier/orders">
+      <a><span v-if="this.$route.path === '/home'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
+      <router-link v-if="this.$route.path !== '/home'" to="/supplier/orders">
         <div class="nav_supplier">
           <span class="lnr lnr-download"></span>
           <span class="nav_text">Supplier Orders</span>
         </div>
       </router-link>
     </div>
-    <router-link to="/"><h1 class="logo">grão</h1></router-link>
+    <router-link to="/home"><h1 class="logo">grão</h1></router-link>
     <div class="nav_icons">
-      <router-link v-if="this.$route.path !== '/'" to="/">
+      <router-link v-if="this.$route.path !== '/home'" to="/home">
         <div class="nav_map">
           <span class="lnr lnr-map"></span>
           <span class="nav_text">Map</span>
         </div>
       </router-link>
-      <a><span v-if="this.$route.path === '/'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
-      <router-link v-if="this.$route.path !== '/'" to="/">
+      <a><span v-if="this.$route.path === '/home'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
+      <router-link v-if="this.$route.path !== '/home'" to="/home">
         <div class="nav_logout">
           <span class="lnr lnr-power-switch"></span>
           <span class="nav_text">Logout</span>

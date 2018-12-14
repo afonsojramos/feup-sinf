@@ -134,6 +134,11 @@ export default {
         { value: false, shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 }
       ]
     }
+  },
+  created () {
+    if (!this.$parent.authenticated) {
+      this.$router.replace({ name: 'Login' })
+    }
   }
 }
 </script>
