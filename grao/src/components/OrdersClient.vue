@@ -25,7 +25,8 @@
                         hide-actions
                         class="elevation-0 products">
                       <template slot="items" slot-scope="props">
-                          <td class="text-xs-center">{{ props.item.name }}</td>
+                          <td class="text-xs-center">{{ props.item.artigo }}</td>
+                          <td class="text-xs-center">{{ props.item.descricao }}</td>
                           <td class="text-xs-center">{{ props.item.section }}</td>
                           <td class="text-xs-center">{{ props.item.qnt }}</td>
                           <td class="text-xs-center">{{ props.item.stock }}</td>
@@ -57,7 +58,8 @@ export default {
         { text: 'Date', align: 'center', value: 'date' },
       ],
       productsHeaders: [
-        { text: 'Product', align: 'center', value: 'name' },
+        { text: 'Artigo', align: 'center', value: 'artigo' },
+        { text: 'Descrição', align: 'center', value: 'descricao' },
         { text: 'Section', align: 'center', value: 'section' },
         { text: 'Qnt', align: 'center', value: 'qnt' },
         { text: 'Stock', align: 'center', value: 'stock' }
@@ -70,7 +72,7 @@ export default {
     if (!this.$session.exists()) {
       this.$router.replace({ name: 'Login' })
     } else{
-      this.sendClientsOrdersRequest();    
+      this.sendClientsOrdersRequest();
     }
   },
 
@@ -78,7 +80,7 @@ export default {
     sendClientsOrdersRequest(){
       console.log("Sending Clients Orders request.");
       const axios = require('axios')
-      axios({
+      var data = axios({
         method: 'post',
         url: 'http://localhost:2018/WebApi/Administrador/Consulta',
         headers: { 
@@ -88,41 +90,70 @@ export default {
         data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
       }).then((response) => {
         console.log("Clients Orders received with success.");
-        console.log(response.data);
-        this.fillTable(response.data.DataSet.Table)
+        this.fillTable(response.data.DataSet.Table);
       }).catch(function (error){
         console.log(error);
         return null;
       });
+      return data;
     },
 
     fillTable(orders){
       for(let i = 0; i < orders.length; i++){
-        console.log(orders[i].Id);
-
         var s = orders[i].Data;
         var n = s.indexOf('T');
         s = s.substring(0, n != -1 ? n : s.length);
-        
+
         var order = {
           value: false,
           number: i,
           id: orders[i].Id,
           date: s,
           client: orders[i].Entidade,
-          products: [
-            { name: 'Lorem', qnt: 3, stock: 4, section: 'A' },
-            { name: 'Ipsum', qnt: 4, stock: 5, section: 'B' },
-            { name: 'Dolor', qnt: 3, stock: 6, section: 'C' },
-            { name: 'Sit', qnt: 4, stock: 8, section: 'D' }
-          ]
+          products: []
         }
 
         this.orders.push(order);
+        this.sendClientOrderProductsRequest(i, order.id);
         this.$set(this.expanded, orders[i].Id, false);
       }
     },
-
+    sendClientOrderProductsRequest(index, orderId){
+      console.log("Sending Client Order Products request.");
+      const axios = require('axios');
+      var data = axios({
+        method: 'post',
+        url: 'http://localhost:2018/WebApi/Administrador/Consulta',
+        headers: { 
+            'Authorization': 'Bearer ' + this.$parent.token.access, 
+            'Content-Type': 'application/json',
+        },
+        data: "\"SELECT CD.Id, CD.Entidade, A.Artigo, A.Descricao, A.LocalizacaoSugestao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LD.Artigo AND A.Artigo = VAA.Artigo AND LD.IdCabecDoc = CD.Id AND LD.Localizacao = VAA.Localizacao AND CD.Id='" + orderId.toString() + "'\"",
+      }).then((response) => {
+        console.log("Client Order Products received with success.");
+        console.log(response.data);
+        this.fillOrder(index, response.data.DataSet.Table);
+      }).catch(function (error){
+        console.log(error);
+        return null;
+      });
+      return data;
+    },
+    fillOrder(index, products){
+      console.log(index);
+      for(let i = 0; i < products.length; i++){       
+        var product = { 
+          artigo: products[i].Artigo,
+          descricao: products[i].Descricao, 
+          qnt: products[i].Quantidade,
+          stock: products[i].StkActual,
+          section: products[i].LocalizacaoSugestao,
+          entidade: products[i].Entidade,
+          orderId: products[i].id
+        };
+        this.orders[index].products.push(product);
+      }
+    },
     handleCheckbox: function (event) {
       var tr = event.target.closest('tr')
       if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
