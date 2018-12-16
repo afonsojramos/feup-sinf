@@ -25,7 +25,7 @@
                             hide-actions
                             class="elevation-0 products">
                         <template slot="items" slot-scope="props">
-                            <td class="text-xs-center">{{ props.item.name }}</td>
+                            <td class="text-xs-center">{{ props.item.artigo }}</td>
                             <td class="text-xs-center">{{ props.item.section }}</td>
                             <td class="text-xs-center">{{ props.item.qnt }}</td>
                             <td class="text-xs-center">{{ props.item.stock }}</td>
@@ -128,7 +128,7 @@
                     'Authorization': 'Bearer ' + this.$session.get('access'),
                     'Content-Type': 'application/json',
                 },
-                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CD.Id='" + orderId.toString() + "'\"",
+                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             }).then((response) => {
                 console.log("Supplier Order Products received with success.");
                 console.log(response.data);
@@ -147,9 +147,9 @@
                 descricao: products[i].Descricao, 
                 qnt: products[i].Quantidade,
                 stock: products[i].STKActual,
-                section: products[i].LocalizacaoSugestao,
+                section: products[i].Localizacao,
                 entidade: products[i].Entidade,
-                orderId: products[i].id
+                orderId: products[i].Id
                 };
                 this.orders[index].products.push(product);
             }
