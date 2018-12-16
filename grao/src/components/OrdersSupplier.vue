@@ -88,7 +88,6 @@
                 data: `"SELECT CC.Id, CC.DataDoc, CC.DataDescarga, CC.Entidade, CCS.Estado FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CC.TipoDoc ='ECF'"`,
             }).then((response) => {
                 console.log("Suppliers Orders received with success.");
-                console.log(response.data);
                 this.fillTable(response.data.DataSet.Table)
             }).catch(function (error){
                 console.log(error);
@@ -98,8 +97,6 @@
 
         async fillTable(orders){
             for(let i = 0; i < orders.length; i++){
-                console.log(orders[i].Id);
-
                 var s = orders[i].DataDoc;
                 var n = s.indexOf('T');
                 s = s.substring(0, n != -1 ? n : s.length);
@@ -131,7 +128,6 @@
                 data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             }).then((response) => {
                 console.log("Supplier Order Products received with success.");
-                console.log(response.data);
                 this.fillOrder(index, response.data.DataSet.Table);
             }).catch(function (error){
                 console.log(error);
@@ -140,16 +136,15 @@
             return data;
         },
         fillOrder(index, products){
-            console.log(index);
             for(let i = 0; i < products.length; i++){       
                 var product = { 
-                artigo: products[i].Artigo,
-                descricao: products[i].Descricao, 
-                qnt: products[i].Quantidade,
-                stock: products[i].STKActual,
-                section: products[i].Localizacao,
-                entidade: products[i].Entidade,
-                orderId: products[i].Id
+                    artigo: products[i].Artigo,
+                    descricao: products[i].Descricao, 
+                    qnt: products[i].Quantidade,
+                    stock: products[i].STKActual,
+                    section: products[i].Localizacao,
+                    entidade: products[i].Entidade,
+                    orderId: products[i].Id
                 };
                 this.orders[index].products.push(product);
             }
