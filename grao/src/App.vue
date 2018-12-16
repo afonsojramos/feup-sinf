@@ -56,6 +56,7 @@ export default {
         this.token.type = response.data.token_type;
         this.token.access = response.data.access_token;
         console.log("Token received with success.");
+        console.log(response.data);
       }).catch(function (error){
         console.log(error);
       });

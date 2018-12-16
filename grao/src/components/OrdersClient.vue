@@ -13,8 +13,7 @@
           <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
           <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
           <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.request_date }}</td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.arrival_date }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
         </tr>
         <tr class="expand" v-show="expanded[props.item.id]">
           <td colspan="100%">
@@ -55,8 +54,7 @@ export default {
         { text: '#', align: 'center', value: 'number' },
         { text: 'id', align: 'center', value: 'id' },
         { text: 'Client', align: 'center', value: 'client' },
-        { text: 'Request Date', align: 'center', value: 'request_date' },
-        { text: 'Arrival Date', align: 'center', value: 'arrival_date' }
+        { text: 'Date', align: 'center', value: 'date' },
       ],
       productsHeaders: [
         { text: 'Product', align: 'center', value: 'name' },
@@ -64,73 +62,67 @@ export default {
         { text: 'Qnt', align: 'center', value: 'qnt' },
         { text: 'Stock', align: 'center', value: 'stock' }
       ],
-      orders: [
-        {
-          value: false,
-          number: 1,
-          id: 'RDA21DA1',
-          request_date: '01-03-2018',
-          arrival_date: '25-04-2018',
-          client: 'Lorem',
-          products: [
-            { name: 'Lorem', qnt: 3, stock: 4, section: 'A' },
-            { name: 'Ipsum', qnt: 4, stock: 5, section: 'B' },
-            { name: 'Dolor', qnt: 3, stock: 6, section: 'C' },
-            { name: 'Sit', qnt: 4, stock: 8, section: 'D' }
-          ]
-        },
-        {
-          value: false,
-          number: 2,
-          id: 'JRGE0YK4',
-          request_date: '06-03-2018',
-          arrival_date: '27-04-2018',
-          client: 'Ipsum',
-          products: [
-            { name: 'Ipsum', qnt: 4, stock: 5, section: 'B' },
-            { name: 'Dolor', qnt: 3, stock: 6, section: 'C' },
-            { name: 'Sit', qnt: 4, stock: 10, section: 'D' }
-          ]
-        },
-        {
-          value: false,
-          number: 3,
-          id: 'P1EASD31',
-          request_date: '03-03-2018',
-          arrival_date: '26-04-2018',
-          client: 'Dolor',
-          products: [
-            { name: 'Dolor', qnt: 3, stock: 9, section: 'C' },
-            { name: 'Sit', qnt: 4, stock: 8, section: 'D' }
-          ]
-        },
-        {
-          value: false,
-          number: 4,
-          id: 'TSDFS123',
-          request_date: '02-03-2018',
-          arrival_date: '25-04-2018',
-          client: 'Sit',
-          products: [
-            { name: 'Ipsum', qnt: 4, stock: 9, section: 'B' }
-          ]
-        }
-      ]
+      orders: []
     }
   },
 
   created () {
     if (!this.$parent.authenticated) {
       this.$router.replace({ name: 'Login' })
+    } else{
+      this.sendClientsOrdersRequest();    
     }
-
-    this.orders.forEach(i => {
-      this.$set(this.expanded, i.id, false)
-    })
-    // console.log(this.expanded)
   },
 
   methods: {
+    sendClientsOrdersRequest(){
+      console.log("Sending Clients Orders request.");
+      const axios = require('axios')
+      axios({
+        method: 'post',
+        url: 'http://localhost:2018/WebApi/Administrador/Consulta',
+        headers: { 
+            'Authorization': 'Bearer ' + this.$parent.token.access, 
+            'Content-Type': 'application/json',
+        },
+        data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
+      }).then((response) => {
+        console.log("Clients Orders received with success.");
+        console.log(response.data);
+        this.fillTable(response.data.DataSet.Table)
+      }).catch(function (error){
+        console.log(error);
+        return null;
+      });
+    },
+
+    fillTable(orders){
+      for(let i = 0; i < orders.length; i++){
+        console.log(orders[i].Id);
+
+        var s = orders[i].Data;
+        var n = s.indexOf('T');
+        s = s.substring(0, n != -1 ? n : s.length);
+        
+        var order = {
+          value: false,
+          number: i,
+          id: orders[i].Id,
+          date: s,
+          client: orders[i].Entidade,
+          products: [
+            { name: 'Lorem', qnt: 3, stock: 4, section: 'A' },
+            { name: 'Ipsum', qnt: 4, stock: 5, section: 'B' },
+            { name: 'Dolor', qnt: 3, stock: 6, section: 'C' },
+            { name: 'Sit', qnt: 4, stock: 8, section: 'D' }
+          ]
+        }
+
+        this.orders.push(order);
+        this.$set(this.expanded, orders[i].Id, false);
+      }
+    },
+
     handleCheckbox: function (event) {
       var tr = event.target.closest('tr')
       if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
