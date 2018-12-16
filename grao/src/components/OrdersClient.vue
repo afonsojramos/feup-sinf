@@ -67,7 +67,7 @@ export default {
   },
 
   created () {
-    if (!this.$parent.authenticated) {
+    if (!this.$session.exists()) {
       this.$router.replace({ name: 'Login' })
     } else{
       this.sendClientsOrdersRequest();    
@@ -82,7 +82,7 @@ export default {
         method: 'post',
         url: 'http://localhost:2018/WebApi/Administrador/Consulta',
         headers: { 
-            'Authorization': 'Bearer ' + this.$parent.token.access, 
+            'Authorization': 'Bearer ' + this.$session.get('access'), 
             'Content-Type': 'application/json',
         },
         data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,

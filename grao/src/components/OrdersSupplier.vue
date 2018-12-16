@@ -68,7 +68,7 @@
 
     created () {
         
-        if (!this.$parent.authenticated) {
+        if (!this.$session.exists()) {
             this.$router.replace({ name: "Login" });
         } else {
             this.sendSuppliersOrdersRequest();    
@@ -82,7 +82,7 @@
                 method: 'post',
                 url: 'http://localhost:2018/WebApi/Administrador/Consulta',
                 headers: { 
-                    'Authorization': 'Bearer ' + this.$parent.token.access, 
+                    'Authorization': 'Bearer ' + this.$session.get('access'), 
                     'Content-Type': 'application/json',
                 },
                 data: `"SELECT CC.Id, CC.DataDoc, CC.DataDescarga, CC.Entidade, CCS.Estado FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CC.TipoDoc ='ECF'"`,

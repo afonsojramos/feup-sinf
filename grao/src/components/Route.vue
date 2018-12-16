@@ -136,7 +136,7 @@ export default {
     }
   },
   created () {
-    if (!this.$parent.authenticated) {
+    if (!this.$session.exists()) {
       this.$router.replace({ name: 'Login' })
     }
   }
