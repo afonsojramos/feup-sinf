@@ -44,7 +44,6 @@
             }
         },
         methods: {
-
             logout() {
                 if(this.$session.exists())
                     this.$session.destroy();

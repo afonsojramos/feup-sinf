@@ -98,7 +98,7 @@ export default {
       return data;
     },
 
-    fillTable(orders){
+    async fillTable(orders){
       for(let i = 0; i < orders.length; i++){
         var s = orders[i].Data;
         var n = s.indexOf('T');
@@ -114,7 +114,7 @@ export default {
         }
 
         this.orders.push(order);
-        this.sendClientOrderProductsRequest(i, order.id);
+        await this.sendClientOrderProductsRequest(i, order.id);        
         this.$set(this.expanded, orders[i].Id, false);
       }
     },
@@ -125,7 +125,7 @@ export default {
         method: 'post',
         url: 'http://localhost:2018/WebApi/Administrador/Consulta',
         headers: { 
-            'Authorization': 'Bearer ' + this.$parent.token.access, 
+            'Authorization': 'Bearer ' + this.$session.get('access'), 
             'Content-Type': 'application/json',
         },
         data: "\"SELECT CD.Id, CD.Entidade, A.Artigo, A.Descricao, A.LocalizacaoSugestao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LD.Artigo AND A.Artigo = VAA.Artigo AND LD.IdCabecDoc = CD.Id AND LD.Localizacao = VAA.Localizacao AND CD.Id='" + orderId.toString() + "'\"",
@@ -146,7 +146,7 @@ export default {
           artigo: products[i].Artigo,
           descricao: products[i].Descricao, 
           qnt: products[i].Quantidade,
-          stock: products[i].StkActual,
+          stock: products[i].STKActual,
           section: products[i].LocalizacaoSugestao,
           entidade: products[i].Entidade,
           orderId: products[i].id
