@@ -96,33 +96,64 @@
             });
         },
 
-        fillTable(orders){
+        async fillTable(orders){
             for(let i = 0; i < orders.length; i++){
                 console.log(orders[i].Id);
 
                 var s = orders[i].DataDoc;
                 var n = s.indexOf('T');
                 s = s.substring(0, n != -1 ? n : s.length);
-                
+
                 var order = {
-                value: false,
-                number: i,
-                id: orders[i].Id,
-                date: s,
-                supplier: orders[i].Entidade,
-                products: [
-                    { name: 'Lorem', qnt: 3, stock: 4, section: 'A' },
-                    { name: 'Ipsum', qnt: 4, stock: 5, section: 'B' },
-                    { name: 'Dolor', qnt: 3, stock: 6, section: 'C' },
-                    { name: 'Sit', qnt: 4, stock: 8, section: 'D' }
-                ]
+                    value: false,
+                    number: i,
+                    id: orders[i].Id,
+                    date: s,
+                    supplier: orders[i].Entidade,
+                    products: []
                 }
 
                 this.orders.push(order);
+                await this.sendSupplierOrderProductsRequest(i, order.id);        
                 this.$set(this.expanded, orders[i].Id, false);
             }
         },
-
+        sendSupplierOrderProductsRequest(index, orderId){
+            console.log("Sending Supplier Order Products request.");
+            const axios = require('axios');
+            var data = axios({
+                method: 'post',
+                url: 'http://localhost:2018/WebApi/Administrador/Consulta',
+                headers: { 
+                    'Authorization': 'Bearer ' + this.$session.get('access'),
+                    'Content-Type': 'application/json',
+                },
+                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CD.Id='" + orderId.toString() + "'\"",
+            }).then((response) => {
+                console.log("Supplier Order Products received with success.");
+                console.log(response.data);
+                this.fillOrder(index, response.data.DataSet.Table);
+            }).catch(function (error){
+                console.log(error);
+                return null;
+            });
+            return data;
+        },
+        fillOrder(index, products){
+            console.log(index);
+            for(let i = 0; i < products.length; i++){       
+                var product = { 
+                artigo: products[i].Artigo,
+                descricao: products[i].Descricao, 
+                qnt: products[i].Quantidade,
+                stock: products[i].STKActual,
+                section: products[i].LocalizacaoSugestao,
+                entidade: products[i].Entidade,
+                orderId: products[i].id
+                };
+                this.orders[index].products.push(product);
+            }
+        },
         handleCheckbox: function (event) {
             var tr = event.target.closest('tr')
             if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
