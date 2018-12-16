@@ -32,7 +32,7 @@
     methods:{
         tokenRequest(){
             this.sendTokenRequest();
-            setInterval(function () {this.sendTokenRequest();}.bind(this), 900000); //15 minutes
+            setInterval(function () {this.sendTokenRequest();}.bind(this), 300000); //15 minutes
         },
         sendTokenRequest(){
             console.log("Sending token request.");
