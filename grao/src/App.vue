@@ -19,10 +19,14 @@ export default {
   data () {
     return{
       authenticated: false,
-       mockAccount: {
-            username: "grao",
-            password: "grao"
-        }
+      mockAccount: {
+        username: "grao",
+        password: "grao"
+      },
+      token: {
+        type: "",
+        access: ""
+      }
     }
   },
   created () {
@@ -33,7 +37,29 @@ export default {
   methods:{
     setAuthenticated(status) {
       this.authenticated = status;
-    }
+    },
+    tokenRequest(){
+      this.sendTokenRequest();
+      setInterval(function () {this.sendTokenRequest();}.bind(this), 900000); //15 minutes
+    },
+    sendTokenRequest(){
+      console.log("Sending token request.");
+      const axios = require('axios')
+      axios({
+        method: 'post',
+        url: 'http://localhost:2018/WebApi/token',
+        headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded' 
+        },
+        data: "grant_type=password&username=FEUP&password=qualquer1&company=DEMO&instance=Default&line=professional",
+      }).then((response) => {
+        this.token.type = response.data.token_type;
+        this.token.access = response.data.access_token;
+        console.log("Token received with success.");
+      }).catch(function (error){
+        console.log(error);
+      });
+    } 
   }
 }
 

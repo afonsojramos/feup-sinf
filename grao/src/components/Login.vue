@@ -16,7 +16,6 @@
 </template>
 
 <script>
-const axios = require('axios')
 
 export default {
   name: 'Login',
@@ -32,22 +31,10 @@ export default {
 
   methods:{
       login(){
-        if(this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
+        if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password){
+            this.$parent.tokenRequest();
             this.$emit("authenticated", true);
             this.$router.push({ name: "Home" });
-
-            axios({
-                method: 'post',
-                url: 'http://localhost:2018/WebApi/token',
-                headers: { 
-                    'Content-Type': 'application/x-www-form-urlencoded' 
-                },
-                data: "grant_type=password&username=FEUP&password=qualquer1&company=DEMO&instance=Default&line=professional",
-            }).then(function (response) {
-                console.log(response);
-            }).catch(function (error)   {
-                console.log(error);
-            });
         }
         else alert("The username and/or password is incorrect");
       }
