@@ -1,43 +1,43 @@
 <template>
-  <div class="order">
-    <h1>Client Orders</h1>
-    <v-data-table v-model="selected"
-        :headers="ordersHeaders"
-        :items="orders"
-        select-all
-        hide-actions
-        class="elevation-0">
-      <template slot="items" slot-scope="props">
-        <tr>
-          <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
-          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
-        </tr>
-        <tr class="expand" v-show="expanded[props.item.id]">
-          <td colspan="100%" class="colspan">
-            <v-expansion-panel>
-              <v-expansion-panel-content v-model="expanded[props.item.id]">
-                    <v-data-table v-model="selected"
-                        :headers="productsHeaders"
-                        :items="props.item.products"
-                        hide-actions
-                        class="elevation-0 products">
-                      <template slot="items" slot-scope="props">
-                          <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
-                          <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
-                          <td class="artigo text-xs-center">{{ props.item.section }}</td>
-                          <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
-                          <td class="artigo text-xs-center">{{ props.item.stock }}</td>
-                      </template>
-                    </v-data-table>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </td>
-        </tr>
-      </template>
-    </v-data-table>
+    <div class="order">
+        <h1>Client Orders</h1>
+        <v-data-table v-model="selected"
+            :headers="ordersHeaders"
+            :items="orders"
+            select-all
+            hide-actions
+            class="elevation-0">
+            <template slot="items" slot-scope="props">
+                <tr>
+                    <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
+                </tr>
+                <tr class="expand" v-show="expanded[props.item.id]">
+                    <td colspan="100%" class="colspan">
+                        <v-expansion-panel>
+                            <v-expansion-panel-content v-model="expanded[props.item.id]">
+                                    <v-data-table v-model="selected"
+                                        :headers="productsHeaders"
+                                        :items="props.item.products"
+                                        hide-actions
+                                        class="elevation-0 products">
+                                        <template slot="items" slot-scope="props">
+                                            <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.section }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.stock }}</td>
+                                        </template>
+                                    </v-data-table>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </td>
+                </tr>
+            </template>
+        </v-data-table>
 
         <div id="orders-next-button" @click="prepareRoute()">
             <v-btn to="/route" color="primary" round dark> Next </v-btn>
@@ -184,7 +184,7 @@
                     }
                 });
             },
-            
+
             prepareRoute() {
                 console.log(this.selected);
                 let allProducts = [];
