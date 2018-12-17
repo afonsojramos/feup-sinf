@@ -16,24 +16,25 @@
             <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
             </tr>
             <tr class="expand" v-show="expanded[props.item.id]">
-            <td colspan="100%">
-                <v-expansion-panel>
-                <v-expansion-panel-content v-model="expanded[props.item.id]">
-                        <v-data-table v-model="selected"
-                            :headers="productsHeaders"
-                            :items="props.item.products"
-                            hide-actions
-                            class="elevation-0 products">
-                        <template slot="items" slot-scope="props">
-                            <td class="text-xs-center">{{ props.item.artigo }}</td>
-                            <td class="text-xs-center">{{ props.item.section }}</td>
-                            <td class="text-xs-center">{{ props.item.qnt }}</td>
-                            <td class="text-xs-center">{{ props.item.stock }}</td>
-                        </template>
-                        </v-data-table>
-                </v-expansion-panel-content>
-                </v-expansion-panel>
-            </td>
+                <td colspan="100%" class="colspan">
+                    <v-expansion-panel>
+                        <v-expansion-panel-content v-model="expanded[props.item.id]">
+                                <v-data-table v-model="selected"
+                                    :headers="productsHeaders"
+                                    :items="props.item.products"
+                                    hide-actions
+                                    class="elevation-0 products">
+                                    <template slot="items" slot-scope="props">
+                                        <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
+                                        <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
+                                        <td class="artigo text-xs-center">{{ props.item.section }}</td>
+                                        <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
+                                        <td class="artigo text-xs-center">{{ props.item.stock }}</td>
+                                    </template>
+                                </v-data-table>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
+                </td>
             </tr>
         </template>
         </v-data-table>
@@ -57,7 +58,8 @@
             { text: 'Date', align: 'center', value: 'date' },
         ],
         productsHeaders: [
-            { text: 'Product', align: 'center', value: 'name' },
+            { text: 'Artigo', align: 'center', value: 'artigo' },
+            { text: 'Descrição', align: 'center', value: 'descricao' },
             { text: 'Section', align: 'center', value: 'section' },
             { text: 'Qnt', align: 'center', value: 'qnt' },
             { text: 'Stock', align: 'center', value: 'stock' }
@@ -71,7 +73,8 @@
         if (!this.$session.exists()) {
             this.$router.replace({ name: "Login" });
         } else {
-            this.sendSuppliersOrdersRequest();    
+            this.sendSuppliersOrdersRequest();
+            
         }	    
     },
     methods: {
@@ -88,7 +91,7 @@
                 data: `"SELECT CC.Id, CC.DataDoc, CC.DataDescarga, CC.Entidade, CCS.Estado FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CC.TipoDoc ='ECF'"`,
             }).then((response) => {
                 console.log("Suppliers Orders received with success.");
-                console.log(response.data.DataSet.Table);
+                //console.log(response.data.DataSet.Table);
                 this.fillTable(response.data.DataSet.Table)
             }).catch(function (error){
                 console.log(error);
@@ -113,8 +116,10 @@
 
                 this.orders.push(order);
                 await this.sendSupplierOrderProductsRequest(i, order.id);        
-                this.$set(this.expanded, orders[i].Id, false);
+                this.$set(this.expanded, this.orders[i].id, false);
             }
+
+            this.handleCheckboxAll();
         },
         sendSupplierOrderProductsRequest(index, orderId){
             console.log("Sending Supplier Order Products request.");
@@ -129,7 +134,7 @@
                 data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             }).then((response) => {
                 console.log("Supplier Order Products received with success.");
-                console.log(index, response.data.DataSet.Table);
+                //console.log(index, response.data.DataSet.Table);
                 this.fillOrder(index, response.data.DataSet.Table);
             }).catch(function (error){
                 console.log(error);
@@ -160,10 +165,25 @@
                 tr.getElementsByTagName('i').item(0).innerText = 'check_box'
                 tr.setAttribute('active', 'true')
             }
+        },
+        handleCheckboxAll: function () {
+            let element = document.querySelector("th .v-input--selection-controls.v-input--hide-details");
+            let trs = document.querySelectorAll('table.v-datatable--select-all > tbody > tr:nth-child(odd)');
+            element.addEventListener("click", function(){
+                if(!element.classList.contains('v-input--is-label-active')){
+                    for(let i= 0; i<trs.length;i++){
+                        trs[i].setAttribute('active', 'true');
+                    }
+                }else{
+                    for(let i = 0; i < trs.length; i++){
+                        trs[i].removeAttribute('active');
+                    }
+                }
+            });
         }
     }
 
-    }
+}
 </script>
 <style scoped>
 h1{
@@ -171,7 +191,9 @@ h1{
   margin-bottom: 1em;
 }
 
-tr.expand td{
+tr.expand >>>td, 
+>>>td.colspan, 
+>>>td.artigo{
   background-color: transparent !important;
   padding:0 !important;
 }

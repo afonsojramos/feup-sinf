@@ -1,43 +1,43 @@
 <template>
-    <div class="order">
-        <h1>Client Orders</h1>
-        <v-data-table v-model="selected"
-            :headers="ordersHeaders"
-            :items="orders"
-            select-all
-            hide-actions
-            class="elevation-0">
-            <template slot="items" slot-scope="props">
-                <tr>
-                    <td><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
-                </tr>
-                <tr class="expand" v-show="expanded[props.item.id]">
-                    <td colspan="100%">
-                        <v-expansion-panel>
-                            <v-expansion-panel-content v-model="expanded[props.item.id]">
-                                    <v-data-table v-model="selected"
-                                        :headers="productsHeaders"
-                                        :items="props.item.products"
-                                        hide-actions
-                                        class="elevation-0 products">
-                                        <template slot="items" slot-scope="props">
-                                            <td class="text-xs-center">{{ props.item.artigo }}</td>
-                                            <td class="text-xs-center">{{ props.item.descricao }}</td>
-                                            <td class="text-xs-center">{{ props.item.section }}</td>
-                                            <td class="text-xs-center">{{ props.item.qnt }}</td>
-                                            <td class="text-xs-center">{{ props.item.stock }}</td>
-                                        </template>
-                                    </v-data-table>
-                            </v-expansion-panel-content>
-                        </v-expansion-panel>
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
+  <div class="order">
+    <h1>Client Orders</h1>
+    <v-data-table v-model="selected"
+        :headers="ordersHeaders"
+        :items="orders"
+        select-all
+        hide-actions
+        class="elevation-0">
+      <template slot="items" slot-scope="props">
+        <tr>
+          <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
+          <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
+        </tr>
+        <tr class="expand" v-show="expanded[props.item.id]">
+          <td colspan="100%" class="colspan">
+            <v-expansion-panel>
+              <v-expansion-panel-content v-model="expanded[props.item.id]">
+                    <v-data-table v-model="selected"
+                        :headers="productsHeaders"
+                        :items="props.item.products"
+                        hide-actions
+                        class="elevation-0 products">
+                      <template slot="items" slot-scope="props">
+                          <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.section }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.stock }}</td>
+                      </template>
+                    </v-data-table>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </td>
+        </tr>
+      </template>
+    </v-data-table>
 
         <div id="orders-next-button" @click="prepareRoute()">
             <v-btn to="/route" color="primary" round dark> Next </v-btn>
@@ -90,7 +90,7 @@
                     data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
                 }).then((response) => {
                     console.log("Clients Orders received with success.");
-                    console.log(response.data.DataSet.Table);
+                    //console.log(response.data.DataSet.Table);
                     this.fillTable(response.data.DataSet.Table);
                 }).catch(function (error){
                     console.log(error);
@@ -119,6 +119,7 @@
                     this.$set(this.expanded, orders[i].Id, false);
                 }
             },
+
             sendClientOrderProductsRequest(index, orderId){
                 console.log("Sending Client Order Products request.");
                 const axios = require('axios');
@@ -140,6 +141,7 @@
                 });
                 return data;
             },
+
             fillOrder(index, products){
                 for(let i = 0; i < products.length; i++){       
                     var product = { 
@@ -149,11 +151,13 @@
                     stock: products[i].STKActual,
                     section: products[i].LocalizacaoSugestao,
                     entidade: products[i].Entidade,
-                    orderId: products[i].id
+                    orderId: products[i].Id
                     };
                     this.orders[index].products.push(product);
                 }
+                this.handleCheckboxAll();
             },
+
             handleCheckbox: function (event) {
                 var tr = event.target.closest('tr')
                 if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
@@ -164,6 +168,23 @@
                     tr.setAttribute('active', 'true')
                 }
             },
+
+            handleCheckboxAll: function () {
+                let element = document.querySelector("th .v-input--selection-controls.v-input--hide-details");
+                let trs = document.querySelectorAll('table.v-datatable--select-all > tbody > tr:nth-child(odd)');
+                element.addEventListener("click", function(){
+                    if(!element.classList.contains('v-input--is-label-active')){
+                        for(let i= 0; i<trs.length;i++){
+                            trs[i].setAttribute('active', 'true');
+                        }
+                    }else{
+                        for(let i = 0; i < trs.length; i++){
+                            trs[i].removeAttribute('active');
+                        }
+                    }
+                });
+            },
+            
             prepareRoute() {
                 console.log(this.selected);
                 let allProducts = [];
@@ -180,13 +201,16 @@
 
     }
 </script>
+
 <style scoped>
     h1{
         font-weight: lighter;
         margin-bottom: 1em;
     }
 
-    tr.expand td{
+    tr.expand >>>td, 
+    >>>td.colspan, 
+    >>>td.artigo{
         background-color: transparent !important;
         padding:0 !important;
     }
