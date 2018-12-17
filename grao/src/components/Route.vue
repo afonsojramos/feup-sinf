@@ -12,7 +12,7 @@
                     <v-data-table v-model="selected"
                         :headers="headers"
                         :items="zone.products"
-                        item-key="product"
+                        item-key="idProduct"
                         hide-actions
                         class="elevation-0">
                         <template slot="items" slot-scope="props">
@@ -57,7 +57,7 @@
                 dialog: false,
                 search: '',
                 selected: [],
-                producstList: [],
+                productsList: [],
                 headers: [
                     { text: 'Picked', sortable: false, align: 'left' },
                     { text: 'Section', sortable: false, align: 'center', value: 'section' },
@@ -68,33 +68,7 @@
                     { text: 'Entity', sortable: false, align: 'center', value: 'entity' }
                 ],
 
-                zones: [
-                    // {
-                    //     id: 0,
-                    //     name: "A1",
-                    //     products: [
-                    //         { value: false, section: 'B', shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                    //         { value: false, section: 'C', shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
-                    //         { value: false, section: 'D', shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: 'Lorem', qnt: 1 }
-                    //     ]
-                    // },
-                    // {
-                    //     id: 1,
-                    //     name: "A2",
-                    //     products: [
-                    //         { value: false, section: 'E', shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                    //         { value: false, section: 'G', shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
-                    //     ],
-                    // },
-                    // {
-                    //     id: 2,
-                    //     name: "A1",
-                    //     products: [
-                    //         { value: false, section: 'H', shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                    //         { value: false, section: 'J', shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 }
-                    //     ]
-                    // }
-                ]
+                zones: []
 
             }
         },
@@ -133,7 +107,11 @@
             createTables(products) {
                 let lastZone = '';
                 let lastId = -1;
+                let j = 0;
                 for(let i = 0; i < products.length; i++){
+                    products[i].idProduct = j;
+                    this.productsList.push(products[i]);
+
                     if(products[i].zone != lastZone){
 
                         let zone = {
@@ -149,6 +127,7 @@
                     } else {
                         this.zones[lastId].products.push(products[i]);
                     }
+                    j++;
                 }
             }
         }
