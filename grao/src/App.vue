@@ -31,6 +31,8 @@
     },
     methods:{
         tokenRequest(){
+            if(!this.$session.exists())
+                this.$session.start();
             this.sendTokenRequest();
             setInterval(function () {this.sendTokenRequest();}.bind(this), 300000); //15 minutes
         },
@@ -45,9 +47,6 @@
                 },
                 data: "grant_type=password&username=FEUP&password=qualquer1&company=DEMO&instance=Default&line=professional",
             }).then((response) => {
-                if(!this.$session.exists())
-                    this.$session.start();
-
                 this.$session.set('type', response.data.token_type);
                 this.$session.set('access', response.data.access_token);
                 console.log("Token received with success.");
