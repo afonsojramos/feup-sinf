@@ -12,7 +12,7 @@
                     <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.client }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.entity }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
                 </tr>
                 <tr class="expand" v-show="expanded[props.item.id]">
@@ -27,7 +27,7 @@
                                         <template slot="items" slot-scope="props">
                                             <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
                                             <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
-                                            <td class="artigo text-xs-center">{{ props.item.section }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.zone }}</td>
                                             <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
                                             <td class="artigo text-xs-center">{{ props.item.stock }}</td>
                                         </template>
@@ -54,13 +54,13 @@
                 ordersHeaders: [
                     { text: '#', align: 'center', value: 'number' },
                     { text: 'id', align: 'center', value: 'id' },
-                    { text: 'Client', align: 'center', value: 'client' },
+                    { text: 'Client', align: 'center', value: 'entity' },
                     { text: 'Date', align: 'center', value: 'date' },
                 ],
                 productsHeaders: [
-                    { text: 'Artigo', align: 'center', value: 'artigo' },
-                    { text: 'Descrição', align: 'center', value: 'descricao' },
-                    { text: 'Section', align: 'center', value: 'section' },
+                    { text: 'Product', align: 'center', value: 'artigo' },
+                    { text: 'Description', align: 'center', value: 'descricao' },
+                    { text: 'Zone', align: 'center', value: 'zone' },
                     { text: 'Qnt', align: 'center', value: 'qnt' },
                     { text: 'Stock', align: 'center', value: 'stock' }
                 ],
@@ -110,13 +110,13 @@
                         number: i,
                         id: orders[i].Id,
                         date: s,
-                        client: orders[i].Entidade,
+                        entity: orders[i].Entidade,
                         products: []
                     }
 
                     this.orders.push(order);
                     await this.sendClientOrderProductsRequest(i, order.id);        
-                    this.$set(this.expanded, orders[i].Id, false);
+                    this.$set(this.expanded, order.id, false);
                 }
             },
 
@@ -143,15 +143,19 @@
             },
 
             fillOrder(index, products){
-                for(let i = 0; i < products.length; i++){       
+                for(let i = 0; i < products.length; i++){   
+                    let tempSection = products[i].LocalizacaoSugestao.split('.');
+
                     var product = { 
-                    artigo: products[i].Artigo,
-                    descricao: products[i].Descricao, 
-                    qnt: products[i].Quantidade,
-                    stock: products[i].STKActual,
-                    section: products[i].LocalizacaoSugestao,
-                    entidade: products[i].Entidade,
-                    orderId: products[i].Id
+                        artigo: products[i].Artigo,
+                        descricao: products[i].Descricao, 
+                        qnt: products[i].Quantidade,
+                        stock: products[i].STKActual,
+                        zone: tempSection[0],
+                        section: tempSection[1],
+                        shelf: tempSection[2],
+                        entity: products[i].Entidade,
+                        orderId: products[i].Id
                     };
                     this.orders[index].products.push(product);
                 }

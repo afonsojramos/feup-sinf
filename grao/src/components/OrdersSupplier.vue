@@ -7,40 +7,40 @@
             select-all
             hide-actions
             class="elevation-0">
-        <template slot="items" slot-scope="props">
-            <tr>
-            <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.supplier }}</td>
-            <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
-            </tr>
-            <tr class="expand" v-show="expanded[props.item.id]">
-                <td colspan="100%" class="colspan">
-                    <v-expansion-panel>
-                        <v-expansion-panel-content v-model="expanded[props.item.id]">
-                                <v-data-table v-model="selected"
-                                    :headers="productsHeaders"
-                                    :items="props.item.products"
-                                    hide-actions
-                                    class="elevation-0 products">
-                                    <template slot="items" slot-scope="props">
-                                        <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
-                                        <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
-                                        <td class="artigo text-xs-center">{{ props.item.section }}</td>
-                                        <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
-                                        <td class="artigo text-xs-center">{{ props.item.stock }}</td>
-                                    </template>
-                                </v-data-table>
-                        </v-expansion-panel-content>
-                    </v-expansion-panel>
-                </td>
-            </tr>
-        </template>
+            <template slot="items" slot-scope="props">
+                <tr>
+                    <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.entity }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
+                </tr>
+                <tr class="expand" v-show="expanded[props.item.id]">
+                    <td colspan="100%" class="colspan">
+                        <v-expansion-panel>
+                            <v-expansion-panel-content v-model="expanded[props.item.id]">
+                                    <v-data-table v-model="selected"
+                                        :headers="productsHeaders"
+                                        :items="props.item.products"
+                                        hide-actions
+                                        class="elevation-0 products">
+                                        <template slot="items" slot-scope="props">
+                                            <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.zone }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
+                                            <td class="artigo text-xs-center">{{ props.item.stock }}</td>
+                                        </template>
+                                    </v-data-table>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </td>
+                </tr>
+            </template>
         </v-data-table>
 
-        <div id="orders-next-button">
-        <v-btn to="/route" color="primary" round dark> Next </v-btn>
+        <div id="orders-next-button" @click="prepareRoute()">
+            <v-btn to="/route" color="primary" round dark> Next </v-btn>
         </div>
     </div>
 </template>
@@ -54,13 +54,13 @@
         ordersHeaders: [
             { text: '#', align: 'center', value: 'number' },
             { text: 'id', align: 'center', value: 'id' },
-            { text: 'Supplier', align: 'center', value: 'supplier' },
+            { text: 'Supplier', align: 'center', value: 'entity' },
             { text: 'Date', align: 'center', value: 'date' },
         ],
         productsHeaders: [
-            { text: 'Artigo', align: 'center', value: 'artigo' },
-            { text: 'Descrição', align: 'center', value: 'descricao' },
-            { text: 'Section', align: 'center', value: 'section' },
+            { text: 'Product', align: 'center', value: 'artigo' },
+            { text: 'Description', align: 'center', value: 'descricao' },
+            { text: 'Zone', align: 'center', value: 'zone' },
             { text: 'Qnt', align: 'center', value: 'qnt' },
             { text: 'Stock', align: 'center', value: 'stock' }
         ],
@@ -110,17 +110,18 @@
                     number: i,
                     id: orders[i].Id,
                     date: s,
-                    supplier: orders[i].Entidade,
+                    entity: orders[i].Entidade,
                     products: []
                 }
 
                 this.orders.push(order);
                 await this.sendSupplierOrderProductsRequest(i, order.id);        
-                this.$set(this.expanded, this.orders[i].id, false);
+                this.$set(this.expanded, order.id, false);
             }
 
             this.handleCheckboxAll();
         },
+
         sendSupplierOrderProductsRequest(index, orderId){
             console.log("Sending Supplier Order Products request.");
             const axios = require('axios');
@@ -142,20 +143,26 @@
             });
             return data;
         },
+
         fillOrder(index, products){
-            for(let i = 0; i < products.length; i++){       
+            for(let i = 0; i < products.length; i++){  
+                let tempSection = products[i].Localizacao.split('.');   
+
                 var product = { 
                     artigo: products[i].Artigo,
                     descricao: products[i].Descricao, 
                     qnt: products[i].Quantidade,
                     stock: products[i].STKActual,
-                    section: products[i].Localizacao,
-                    entidade: products[i].Entidade,
+                    zone: tempSection[0],
+                    section: tempSection[1],
+                    shelf: tempSection[2],
+                    entity: products[i].Entidade,
                     orderId: products[i].Id
                 };
                 this.orders[index].products.push(product);
             }
         },
+
         handleCheckbox: function (event) {
             var tr = event.target.closest('tr')
             if (tr.getAttribute('active') === 'true' && tr.getElementsByTagName('i').item(0).innerText === 'check_box') {
@@ -166,6 +173,7 @@
                 tr.setAttribute('active', 'true')
             }
         },
+
         handleCheckboxAll: function () {
             let element = document.querySelector("th .v-input--selection-controls.v-input--hide-details");
             let trs = document.querySelectorAll('table.v-datatable--select-all > tbody > tr:nth-child(odd)');
@@ -180,43 +188,57 @@
                     }
                 }
             });
+        },
+
+        prepareRoute() {
+            console.log(this.selected);
+            let allProducts = [];
+            for (let i = 0; i < this.selected.length; i++){
+                console.log(i);
+                for(let j = 0; j < this.orders[this.selected[i].number].products.length; j++){
+                    allProducts.push(this.orders[this.selected[i].number].products[j]);
+                }
+            }
+            console.log(allProducts);
+            this.$session.set('routeProducts', allProducts);
         }
     }
 
 }
 </script>
+
 <style scoped>
-h1{
-  font-weight: lighter;
-  margin-bottom: 1em;
-}
+    h1{
+        font-weight: lighter;
+        margin-bottom: 1em;
+    }
 
-tr.expand >>>td, 
->>>td.colspan, 
->>>td.artigo{
-  background-color: transparent !important;
-  padding:0 !important;
-}
+    tr.expand >>>td, 
+    >>>td.colspan, 
+    >>>td.artigo{
+        background-color: transparent !important;
+        padding:0 !important;
+    }
 
-div.products >>>tbody{
-  background-color: transparent !important;
-}
+    div.products >>>tbody{
+        background-color: transparent !important;
+    }
 
-ul{
-   box-shadow: none !important;
-}
+    ul{
+        box-shadow: none !important;
+    }
 
-.theme--light.v-expansion-panel .v-expansion-panel__container{
-  background-color:transparent !important;
-  border:none;
-}
+    .theme--light.v-expansion-panel .v-expansion-panel__container{
+        background-color:transparent !important;
+        border:none;
+    }
 
-tr.expand .expansion-panel {
-  box-shadow: none;
-}
+    tr.expand .expansion-panel {
+        box-shadow: none;
+    }
 
-tr.expand .expansion-panel li {
-  border: none;
-}
+    tr.expand .expansion-panel li {
+        border: none;
+    }
 
 </style>

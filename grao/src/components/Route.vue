@@ -19,10 +19,10 @@
                             <td> <v-checkbox v-model="props.selected" primary hide-details></v-checkbox> </td>
                             <td class="text-xs-center">{{ props.item.section }}</td>
                             <td class="text-xs-center">{{ props.item.shelf }}</td>
-                            <td class="text-xs-center">{{ props.item.product }}</td>
+                            <td class="text-xs-center">{{ props.item.artigo }}</td>
                             <td class="text-xs-center">{{ props.item.qnt}}</td>
-                            <td class="text-xs-center">{{ props.item.order_id }}</td>
-                            <td class="text-xs-center">{{ props.item.client }}</td>
+                            <td class="text-xs-center">{{ props.item.orderId }}</td>
+                            <td class="text-xs-center">{{ props.item.entity }}</td>
                         </template>
                     </v-data-table>
                 </div>
@@ -59,41 +59,41 @@
                 selected: [],
                 producstList: [],
                 headers: [
-                    { text: 'picked', sortable: false, align: 'left' },
-                    { text: 'section', sortable: false, align: 'center', value: 'section' },
-                    { text: 'shelf', sortable: false, align: 'center', value: 'shelf' },
-                    { text: 'product', sortable: false, align: 'center', value: 'product' },
-                    { text: 'qnt', sortable: false, align: 'center', value: 'qnt' },
-                    { text: 'order id', sortable: false, align: 'center', value: 'order_id' },
-                    { text: 'client', sortable: false, align: 'center', value: 'client' }
+                    { text: 'Picked', sortable: false, align: 'left' },
+                    { text: 'Section', sortable: false, align: 'center', value: 'section' },
+                    { text: 'Shelf', sortable: false, align: 'center', value: 'shelf' },
+                    { text: 'Product', sortable: false, align: 'center', value: 'artigo' },
+                    { text: 'Qnt', sortable: false, align: 'center', value: 'qnt' },
+                    { text: 'Order ID', sortable: false, align: 'center', value: 'orderId' },
+                    { text: 'Entity', sortable: false, align: 'center', value: 'entity' }
                 ],
 
                 zones: [
-                    {
-                        id: 0,
-                        name: "A1",
-                        products: [
-                            { value: false, section: 'B', shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                            { value: false, section: 'C', shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
-                            { value: false, section: 'D', shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: 'Lorem', qnt: 1 }
-                        ]
-                    },
-                    {
-                        id: 1,
-                        name: "A2",
-                        products: [
-                            { value: false, section: 'E', shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                            { value: false, section: 'G', shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
-                        ],
-                    },
-                    {
-                        id: 2,
-                        name: "A1",
-                        products: [
-                            { value: false, section: 'H', shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
-                            { value: false, section: 'J', shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 }
-                        ]
-                    }
+                    // {
+                    //     id: 0,
+                    //     name: "A1",
+                    //     products: [
+                    //         { value: false, section: 'B', shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+                    //         { value: false, section: 'C', shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+                    //         { value: false, section: 'D', shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: 'Lorem', qnt: 1 }
+                    //     ]
+                    // },
+                    // {
+                    //     id: 1,
+                    //     name: "A2",
+                    //     products: [
+                    //         { value: false, section: 'E', shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+                    //         { value: false, section: 'G', shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+                    //     ],
+                    // },
+                    // {
+                    //     id: 2,
+                    //     name: "A1",
+                    //     products: [
+                    //         { value: false, section: 'H', shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+                    //         { value: false, section: 'J', shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 }
+                    //     ]
+                    // }
                 ]
 
             }
@@ -107,12 +107,49 @@
         },
         methods: {
             prepareRoute() {
-                if(this.$session.has('routeProducts')){
+               if(this.$session.has('routeProducts')){
                     let tempProd = this.$session.get('routeProducts');
                     this.$session.remove('routeProducts');
+
+                    // let tempProd = [
+                    //     { value: false, zone: 'A2', section: 'E', shelf: 1, product: 'Amet', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+                    //     { value: false, zone: 'A2', section: 'G', shelf: 2, product: 'Consectetur', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+                    //     { value: false, zone: 'A1', section: 'C', shelf: 2, product: 'Ipsum', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+                    //     { value: false, zone: 'A1', section: 'D', shelf: 4, product: 'Sit', order_id: 'TSDFS123', client: 'Lorem', qnt: 1 },
+                    //     { value: false, zone: 'A1', section: 'H', shelf: 1, product: 'Elit', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 },
+                    //     { value: false, zone: 'A1', section: 'J', shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
+                    //     { value: false, zone: 'A1', section: 'B', shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 }
+                    // ];
+                    tempProd.sort((a, b) => (a.section > b.section) ? 1 : ((b.section > a.section) ? -1 : 0));
                     console.log(tempProd);
-                } else 
+                    this.createTables(tempProd);
+
+
+               } else 
                     alert('No values');
+
+            },
+
+            createTables(products) {
+                let lastZone = '';
+                let lastId = -1;
+                for(let i = 0; i < products.length; i++){
+                    if(products[i].zone != lastZone){
+
+                        let zone = {
+                            id: lastId + 1,
+                            name: products[i].zone,
+                            products: [
+                                products[i]
+                            ]
+                        }
+                        this.zones.push(zone);
+                        lastZone = products[i].zone;
+                        lastId++;
+                    } else {
+                        this.zones[lastId].products.push(products[i]);
+                    }
+                }
             }
         }
     }
