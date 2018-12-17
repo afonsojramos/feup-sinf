@@ -16,7 +16,7 @@
           <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
         </tr>
         <tr class="expand" v-show="expanded[props.item.id]">
-          <td colspan="100%">
+          <td colspan="100%" class="colspan">
             <v-expansion-panel>
               <v-expansion-panel-content v-model="expanded[props.item.id]">
                     <v-data-table v-model="selected"
@@ -25,11 +25,11 @@
                         hide-actions
                         class="elevation-0 products">
                       <template slot="items" slot-scope="props">
-                          <td class="text-xs-center">{{ props.item.artigo }}</td>
-                          <td class="text-xs-center">{{ props.item.descricao }}</td>
-                          <td class="text-xs-center">{{ props.item.section }}</td>
-                          <td class="text-xs-center">{{ props.item.qnt }}</td>
-                          <td class="text-xs-center">{{ props.item.stock }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.artigo }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.descricao }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.section }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.qnt }}</td>
+                          <td class="artigo text-xs-center">{{ props.item.stock }}</td>
                       </template>
                     </v-data-table>
               </v-expansion-panel-content>
@@ -90,7 +90,7 @@ export default {
         data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
       }).then((response) => {
         console.log("Clients Orders received with success.");
-        console.log(response.data.DataSet.Table);
+        //console.log(response.data.DataSet.Table);
         this.fillTable(response.data.DataSet.Table);
       }).catch(function (error){
         console.log(error);
@@ -118,6 +118,8 @@ export default {
         await this.sendClientOrderProductsRequest(i, order.id);        
         this.$set(this.expanded, orders[i].Id, false);
       }
+
+      this.handleCheckboxAll();
     },
     sendClientOrderProductsRequest(index, orderId){
       console.log("Sending Client Order Products request.");
@@ -132,7 +134,7 @@ export default {
         data: "\"SELECT CD.Id, CD.Entidade, A.Artigo, A.Descricao, A.LocalizacaoSugestao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LD.Artigo AND A.Artigo = VAA.Artigo AND LD.IdCabecDoc = CD.Id AND LD.Localizacao = VAA.Localizacao AND CD.Id='" + orderId.toString() + "'\"",
       }).then((response) => {
         console.log("Client Order Products received with success.");
-        console.log(index, response.data.DataSet.Table);
+        //console.log(index, response.data.DataSet.Table);
         this.fillOrder(index, response.data.DataSet.Table);
       }).catch(function (error){
         console.log(error);
@@ -149,7 +151,7 @@ export default {
           stock: products[i].STKActual,
           section: products[i].LocalizacaoSugestao,
           entidade: products[i].Entidade,
-          orderId: products[i].id
+          orderId: products[i].Id
         };
         this.orders[index].products.push(product);
       }
@@ -163,7 +165,22 @@ export default {
         tr.getElementsByTagName('i').item(0).innerText = 'check_box'
         tr.setAttribute('active', 'true')
       }
-    }
+    },
+    handleCheckboxAll: function () {
+          let element = document.querySelector("th .v-input--selection-controls.v-input--hide-details");
+          let trs = document.querySelectorAll('table.v-datatable--select-all > tbody > tr:nth-child(odd)');
+          element.addEventListener("click", function(){
+              if(!element.classList.contains('v-input--is-label-active')){
+                  for(let i= 0; i<trs.length;i++){
+                      trs[i].setAttribute('active', 'true');
+                  }
+              }else{
+                  for(let i = 0; i < trs.length; i++){
+                      trs[i].removeAttribute('active');
+                  }
+              }
+          });
+      }
   }
 
 }
@@ -174,7 +191,9 @@ h1{
   margin-bottom: 1em;
 }
 
-tr.expand td{
+tr.expand >>>td, 
+>>>td.colspan, 
+>>>td.artigo{
   background-color: transparent !important;
   padding:0 !important;
 }
