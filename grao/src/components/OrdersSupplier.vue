@@ -88,6 +88,7 @@
                 data: `"SELECT CC.Id, CC.DataDoc, CC.DataDescarga, CC.Entidade, CCS.Estado FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CC.TipoDoc ='ECF'"`,
             }).then((response) => {
                 console.log("Suppliers Orders received with success.");
+                console.log(response.data.DataSet.Table);
                 this.fillTable(response.data.DataSet.Table)
             }).catch(function (error){
                 console.log(error);
@@ -128,6 +129,7 @@
                 data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             }).then((response) => {
                 console.log("Supplier Order Products received with success.");
+                console.log(index, response.data.DataSet.Table);
                 this.fillOrder(index, response.data.DataSet.Table);
             }).catch(function (error){
                 console.log(error);

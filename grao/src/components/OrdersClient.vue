@@ -90,6 +90,7 @@ export default {
         data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
       }).then((response) => {
         console.log("Clients Orders received with success.");
+        console.log(response.data.DataSet.Table);
         this.fillTable(response.data.DataSet.Table);
       }).catch(function (error){
         console.log(error);
@@ -131,6 +132,7 @@ export default {
         data: "\"SELECT CD.Id, CD.Entidade, A.Artigo, A.Descricao, A.LocalizacaoSugestao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LD.Artigo AND A.Artigo = VAA.Artigo AND LD.IdCabecDoc = CD.Id AND LD.Localizacao = VAA.Localizacao AND CD.Id='" + orderId.toString() + "'\"",
       }).then((response) => {
         console.log("Client Order Products received with success.");
+        console.log(index, response.data.DataSet.Table);
         this.fillOrder(index, response.data.DataSet.Table);
       }).catch(function (error){
         console.log(error);
