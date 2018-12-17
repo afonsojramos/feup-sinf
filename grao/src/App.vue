@@ -34,7 +34,7 @@
             if(!this.$session.exists())
                 this.$session.start();
             this.sendTokenRequest();
-            setInterval(function () {this.sendTokenRequest();}.bind(this), 300000); //15 minutes
+            setInterval(function () {this.sendTokenRequest();}.bind(this), 300000); //5 minutes
         },
         sendTokenRequest(){
             console.log("Sending token request.");
