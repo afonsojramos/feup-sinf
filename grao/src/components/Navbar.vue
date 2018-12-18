@@ -7,7 +7,6 @@
                     <span class="nav_text">Client Orders</span>
                 </div>
             </router-link>
-            <a><span v-if="this.$route.path === '/home'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
             <router-link v-if="this.$route.path !== '/home'" to="/supplier/orders">
                 <div class="nav_supplier">
                     <span class="lnr lnr-download"></span>
@@ -17,14 +16,13 @@
         </div>
         <router-link to="/home"><h1 class="logo">grão</h1></router-link>
         <div class="nav_icons">
-            <v-dialog v-model="dialog" width="1150" heigh="386">
+            <v-dialog v-if="this.$route.path !== '/home'" v-model="dialog" width="1146" heigh="382">
                 <div class="nav_map" slot="activator">
                     <span class="lnr lnr-map"></span>
                     <span class="nav_text">Map</span>
                 </div>
                 <img class="map" alt="map" src="../assets/map.png"/>
             </v-dialog>
-            <a><span v-if="this.$route.path === '/home'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
             <router-link v-if="this.$route.path !== '/home'" to="/home">
                 <div class="nav_logout" @click="logout()">
                     <span class="lnr lnr-power-switch"></span>
@@ -105,6 +103,10 @@
 
     div.nav_icons {
         padding-right: 0.3em;
+    }
+
+    div.nav_map{
+        font-size: 1.6em;
     }
 
     div.nav_logout {

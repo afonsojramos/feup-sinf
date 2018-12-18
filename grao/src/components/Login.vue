@@ -60,6 +60,7 @@
     }
     h1.logo{
         font-size: 12em ;
+        cursor:default;
     }
     div.line {
         border-bottom: 0.15em solid var(--gold);

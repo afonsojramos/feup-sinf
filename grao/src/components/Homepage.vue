@@ -16,13 +16,14 @@
             </div>
         </router-link>
         <div class="line"></div>
-        <router-link to="/home">
-            <div class="hexContainer">
-                <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
-                <span class="lnr lnr-map"></span>
-                <h1>Map</h1>
-            </div>
-        </router-link>
+        <v-dialog v-model="dialog" width="1146" heigh="382">
+                 <div class="hexContainer" slot="activator">
+                    <img class="hexagon" alt="hexagon" src="../assets/hex.svg"/>
+                    <span class="lnr lnr-map"></span>
+                    <h1>Map</h1>
+                </div>
+                <img class="map" alt="map" src="../assets/map.png"/>
+        </v-dialog>
         <div class="line"></div>
         <router-link to="/login">
             <div class="hexContainer" @click="logout()">
@@ -38,6 +39,11 @@
     export default {
         name: 'Homepage',
         props: {},
+        data () {
+            return {
+                dialog: false,
+            }
+        },
         created() {
             if(!this.$session.exists()) {
                 this.$router.replace({ name: "Login" });
@@ -80,6 +86,7 @@
         flex-direction: column;
         align-items: center;
         padding: 0;
+        z-index: 20;
     }
 
     div.hexContainer:hover{
