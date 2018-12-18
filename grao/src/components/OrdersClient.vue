@@ -40,7 +40,7 @@
         </v-data-table>
 
         <div id="orders-next-button" @click="prepareRoute()">
-            <v-btn to="/route" color="primary" round dark> Next </v-btn>
+            <v-btn color="primary" round dark> Next </v-btn>
         </div>
     </div>
 </template>
@@ -90,9 +90,10 @@
                     data: `"SELECT CD.Id, CD.Data, CD.Entidade, CD.NumDoc, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
                 }).then((response) => {
                     console.log("Clients Orders received with success.");
-                    //console.log(response.data.DataSet.Table);
                     this.fillTable(response.data.DataSet.Table);
-                }).catch(function (error){
+                })
+                .catch(function (error){
+                    this.$root.tokenRequest();
                     console.log(error);
                     return null;
                 });
@@ -204,6 +205,8 @@
                 }
                 console.log(allProducts);
                 this.$session.set('routeProducts', allProducts);
+                this.$session.set('previousPage', 'client');
+                this.$router.push('/route');
             }
         }
 

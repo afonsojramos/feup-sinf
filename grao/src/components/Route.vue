@@ -133,26 +133,28 @@
             },
 
             sendPickingWaveRequest () {
-                const axios = require('axios');
-                console.log('Sending picking wave request...');
-
-                let docHeader = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
+                const [axios, docType] = [require('axios'), this.selected[0].orderTipoDoc];
+                let doc = { TipoDoc: docType, Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
 
                 this.selected.forEach(s => {
-                    let prodHeader = { Artigo: s.artigo, Armazem: s.zone, Quantidade: s.qntPicked, LinhasDestino: [] };
-                    docHeader.LinhasOrigem.push(prodHeader);
-                    console.log(docHeader);
+                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: s.zone, Quantidade: s.qntPicked, LinhasDestino: [] });
                 });
 
-                /*
-                this.selected.forEach(sel => axios({
-                        method: 'post', url: 'http://localhost:2018/WebApi/Inventario/Transferencias/CreateTransfer',
-                        headers: { 'Authorization': `Bearer ${this.$session.get('access')}`, 'Content-Type': 'application/json' },
-                        data: 'wave'
-                    })
-                    .then(response => console.log(response))
-                    .catch(err => console.log(err))
-                );*/
+                if (docType === 'ECL') {
+                    // TODO: Dar handle a ECL.
+                }
+                else if (docType === 'ECF') {
+                    // TODO: Dar handle a ECF.
+                }
+
+                console.log('Sending picking wave request...');
+                axios({ 
+                    method: 'post', url: 'http://localhost:2018/WebApi/Inventario/Transferencias/CreateTransfer',
+                    headers: { 'Authorization': `Bearer ${this.$session.get('access')}`, 'Content-Type': 'application/json' },
+                    data: doc
+                })
+                .then(response => console.log(`Picking wave created: ${response}`))
+                .catch(err => console.log('Eu sei que isto deu erro, ainda não sei a sintaxe da query de ECL/ECF. ~Miguel'));
             }
         }
     }

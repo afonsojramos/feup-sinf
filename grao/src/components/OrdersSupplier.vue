@@ -40,7 +40,7 @@
         </v-data-table>
 
         <div id="orders-next-button" @click="prepareRoute()">
-            <v-btn to="/route" color="primary" round dark> Next </v-btn>
+            <v-btn color="primary" round dark> Next </v-btn>
         </div>
     </div>
 </template>
@@ -134,11 +134,13 @@
                     'Content-Type': 'application/json',
                 },
                 data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, CC.Serie, CC.NumDoc, CC.TipoDoc, LC.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A WHERE A.Artigo = LC.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
-            }).then((response) => {
+            })
+            .then(response => {
                 console.log("Supplier Order Products received with success.");
-                //console.log(index, response.data.DataSet.Table);
                 this.fillOrder(index, response.data.DataSet.Table);
-            }).catch(function (error){
+            })
+            .catch(function (error){
+                this.$root.tokenRequest();
                 console.log(error);
                 return null;
             });
@@ -205,6 +207,8 @@
             }
             console.log(allProducts);
             this.$session.set('routeProducts', allProducts);
+            this.$session.set('previousPage', 'supplier');
+            this.$router.push('/route');
         }
     }
 
