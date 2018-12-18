@@ -10,7 +10,7 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.numDoc }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.entity }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
@@ -52,8 +52,8 @@
                 expanded: {},
                 selected: [],
                 ordersHeaders: [
-                    { text: '#', align: 'center', value: 'number' },
-                    { text: 'id', align: 'center', value: 'id' },
+                    { text: 'Document ID', align: 'center', value: 'numDoc' },
+                    { text: 'Order ID', align: 'center', value: 'orderId' },
                     { text: 'Client', align: 'center', value: 'entity' },
                     { text: 'Date', align: 'center', value: 'date' },
                 ],
@@ -87,7 +87,7 @@
                         'Authorization': 'Bearer ' + this.$session.get('access'), 
                         'Content-Type': 'application/json',
                     },
-                    data: `"SELECT CD.Id, CD.Data, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
+                    data: `"SELECT CD.Id, CD.Data, CD.Entidade, CD.NumDoc, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
                 }).then((response) => {
                     console.log("Clients Orders received with success.");
                     //console.log(response.data.DataSet.Table);
@@ -109,6 +109,7 @@
                         value: false,
                         number: i,
                         id: orders[i].Id,
+                        numDoc: orders[i].NumDoc,
                         date: s,
                         entity: orders[i].Entidade,
                         products: []
