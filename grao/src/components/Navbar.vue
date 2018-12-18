@@ -14,15 +14,16 @@
                     <span class="nav_text">Supplier Orders</span>
                 </div>
             </router-link>
-            </div>
-            <router-link to="/home"><h1 class="logo">grão</h1></router-link>
-            <div class="nav_icons">
-            <router-link v-if="this.$route.path !== '/home'" to="/home">
-                <div class="nav_map">
+        </div>
+        <router-link to="/home"><h1 class="logo">grão</h1></router-link>
+        <div class="nav_icons">
+            <v-dialog v-model="dialog" width="1150" heigh="386">
+                <div class="nav_map" slot="activator">
                     <span class="lnr lnr-map"></span>
                     <span class="nav_text">Map</span>
                 </div>
-            </router-link>
+                <img class="map" alt="map" src="../assets/map.png"/>
+            </v-dialog>
             <a><span v-if="this.$route.path === '/home'" style="visibility: hidden;" class="lnr lnr-power-switch"></span></a>
             <router-link v-if="this.$route.path !== '/home'" to="/home">
                 <div class="nav_logout" @click="logout()">
@@ -31,13 +32,23 @@
                 </div>
             </router-link>
         </div>
+
+        
+
     </div>
+
+    
 </template>
 
 <script>
     export default {
         name: 'Navbar',
         props: {},
+        data () {
+            return {
+                dialog: false
+            }
+        },
         methods: {
             logout() {
                 if(this.$session.exists())

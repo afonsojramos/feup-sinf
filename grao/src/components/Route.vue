@@ -21,6 +21,7 @@
                             <td class="text-xs-center">{{ props.item.shelf }}</td>
                             <td class="text-xs-center">{{ props.item.artigo }}</td>
                             <td class="text-xs-center">{{ props.item.qnt}}</td>
+                            <td> <v-text-field v-model=props.item.qntPicked></v-text-field>
                             <td class="text-xs-center">{{ props.item.orderId }}</td>
                             <td class="text-xs-center">{{ props.item.entity }}</td>
                         </template>
@@ -64,6 +65,7 @@
                     { text: 'Shelf', sortable: false, align: 'center', value: 'shelf' },
                     { text: 'Product', sortable: false, align: 'center', value: 'artigo' },
                     { text: 'Qnt', sortable: false, align: 'center', value: 'qnt' },
+                    { text: 'Qnt Picked', sortable: false, align: 'center', value: 'qntPicked' },
                     { text: 'Order ID', sortable: false, align: 'center', value: 'orderId' },
                     { text: 'Entity', sortable: false, align: 'center', value: 'entity' }
                 ],
@@ -110,10 +112,11 @@
                 let j = 0;
                 for(let i = 0; i < products.length; i++){
                     products[i].idProduct = j;
+                    products[i].qntPicked = products[i].qnt;
                     this.productsList.push(products[i]);
 
                     if(products[i].zone != lastZone){
-
+                        
                         let zone = {
                             id: lastId + 1,
                             name: products[i].zone,
@@ -141,6 +144,17 @@
         font-weight: lighter;
         margin-bottom: 1em;
     }
+
+    td >>>div.v-text-field__slot{
+        border-bottom: 0.01em solid var(--baby) !important;
+        width: 0.3em;
+    }
+
+    td >>>div.v-text-field__slot input{
+        color: var(--baby) !important;
+        text-align: center;
+    }
+   
 
     div.infoContainer {
         width: 100%;

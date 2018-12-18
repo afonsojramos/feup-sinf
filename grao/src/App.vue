@@ -61,7 +61,6 @@
 </script>
 
 <style>
-
     #app > div.navbar + div{
         padding-left: 20%;
         padding-right: 20%;
