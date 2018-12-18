@@ -88,7 +88,7 @@
                     'Authorization': 'Bearer ' + this.$session.get('access'), 
                     'Content-Type': 'application/json',
                 },
-                data: `"SELECT CC.Id, CC.DataDoc, CC.DataDescarga, CC.Entidade, CCS.Estado FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CC.TipoDoc ='ECF'"`,
+                data: `"SELECT CC.Id, CC.DataDoc, CC.Entidade FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CCS.Estado='P' AND CC.TipoDoc ='ECF'"`,
             }).then((response) => {
                 console.log("Suppliers Orders received with success.");
                 //console.log(response.data.DataSet.Table);
@@ -101,7 +101,7 @@
 
         async fillTable(orders){
             for(let i = 0; i < orders.length; i++){
-                var s = orders[i].DataDoc;
+                var s = orders[i].DataDoc
                 var n = s.indexOf('T');
                 s = s.substring(0, n != -1 ? n : s.length);
 
@@ -132,7 +132,7 @@
                     'Authorization': 'Bearer ' + this.$session.get('access'),
                     'Content-Type': 'application/json',
                 },
-                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, VAA.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LC.Artigo AND A.Artigo = VAA.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
+                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, CC.Serie, CC.NumDoc, CC.TipoDoc, LC.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A WHERE A.Artigo = LC.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             }).then((response) => {
                 console.log("Supplier Order Products received with success.");
                 //console.log(index, response.data.DataSet.Table);
@@ -157,7 +157,10 @@
                     section: tempSection[1],
                     shelf: tempSection[2],
                     entity: products[i].Entidade,
-                    orderId: products[i].Id
+                    orderId: products[i].Id,
+                    orderSerie: products[i].Serie,
+                    orderTipoDoc: products[i].TipoDoc,
+                    orderNumDoc: products[i].NumDoc
                 };
                 this.orders[index].products.push(product);
             }

@@ -87,7 +87,7 @@
                         'Authorization': 'Bearer ' + this.$session.get('access'), 
                         'Content-Type': 'application/json',
                     },
-                    data: `"SELECT CD.Id, CD.Data, CD.DataDescarga, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
+                    data: `"SELECT CD.Id, CD.Data, CD.Entidade, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
                 }).then((response) => {
                     console.log("Clients Orders received with success.");
                     //console.log(response.data.DataSet.Table);
@@ -130,7 +130,7 @@
                         'Authorization': 'Bearer ' + this.$session.get('access'), 
                         'Content-Type': 'application/json',
                     },
-                    data: "\"SELECT CD.Id, CD.Entidade, A.Artigo, A.Descricao, A.LocalizacaoSugestao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A, V_INV_ArtigoArmazem VAA WHERE A.Artigo = LD.Artigo AND A.Artigo = VAA.Artigo AND LD.IdCabecDoc = CD.Id AND LD.Localizacao = VAA.Localizacao AND CD.Id='" + orderId.toString() + "'\"",
+                    data: "\"SELECT CD.Id, CD.Entidade, CD.Serie, CD.NumDoc, CD.TipoDoc, A.Artigo, A.Descricao, LD.Localizacao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A WHERE A.Artigo = LD.Artigo AND LD.IdCabecDoc = CD.Id AND CD.Id='" + orderId.toString() + "'\"",
                 }).then((response) => {
                     console.log("Client Order Products received with success.");
                     console.log(index, response.data.DataSet.Table);
@@ -144,7 +144,7 @@
 
             fillOrder(index, products){
                 for(let i = 0; i < products.length; i++){   
-                    let tempSection = products[i].LocalizacaoSugestao.split('.');
+                    let tempSection = products[i].Localizacao.split('.');
 
                     var product = { 
                         artigo: products[i].Artigo,
@@ -155,7 +155,10 @@
                         section: tempSection[1],
                         shelf: tempSection[2],
                         entity: products[i].Entidade,
-                        orderId: products[i].Id
+                        orderId: products[i].Id,
+                        orderSerie: products[i].Serie,
+                        orderTipoDoc: products[i].TipoDoc,
+                        orderNumDoc: products[i].NumDoc
                     };
                     this.orders[index].products.push(product);
                 }
