@@ -41,7 +41,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="primary" round dark @click="dialog = false">No</v-btn>
-                                <v-btn color="primary" round dark @click="dialog = false">Yes</v-btn>
+                                <v-btn color="primary" round dark @click="sendPickingWaveRequest(), dialog = false">Yes</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -132,6 +132,29 @@
                     }
                     j++;
                 }
+            },
+
+            sendPickingWaveRequest () {
+                const axios = require('axios');
+                console.log('Sending picking wave request...');
+
+                let docHeader = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
+
+                this.selected.forEach(s => {
+                    let prodHeader = { Artigo: s.artigo, Armazem: s.zone, Quantidade: s.qntPicked, LinhasDestino: [] };
+                    docHeader.LinhasOrigem.push(prodHeader);
+                    console.log(docHeader);
+                });
+
+                /*
+                this.selected.forEach(sel => axios({
+                        method: 'post', url: 'http://localhost:2018/WebApi/Inventario/Transferencias/CreateTransfer',
+                        headers: { 'Authorization': `Bearer ${this.$session.get('access')}`, 'Content-Type': 'application/json' },
+                        data: 'wave'
+                    })
+                    .then(response => console.log(response))
+                    .catch(err => console.log(err))
+                );*/
             }
         }
     }
