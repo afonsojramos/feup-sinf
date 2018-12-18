@@ -18,11 +18,10 @@
                         <template slot="items" slot-scope="props">
                             <td> <v-checkbox v-model="props.selected" primary hide-details></v-checkbox> </td>
                             <td class="text-xs-center">{{ props.item.section }}</td>
-                            <td class="text-xs-center">{{ props.item.shelf }}</td>
                             <td class="text-xs-center">{{ props.item.artigo }}</td>
                             <td class="text-xs-center">{{ props.item.qnt}}</td>
                             <td> <v-text-field v-model=props.item.qntPicked></v-text-field>
-                            <td class="text-xs-center">{{ props.item.orderId }}</td>
+                            <td class="text-xs-center">{{ props.item.orderNumDoc }}</td>
                             <td class="text-xs-center">{{ props.item.entity }}</td>
                         </template>
                     </v-data-table>
@@ -62,11 +61,10 @@
                 headers: [
                     { text: 'Picked', sortable: false, align: 'left' },
                     { text: 'Section', sortable: false, align: 'center', value: 'section' },
-                    { text: 'Shelf', sortable: false, align: 'center', value: 'shelf' },
                     { text: 'Product', sortable: false, align: 'center', value: 'artigo' },
                     { text: 'Qnt', sortable: false, align: 'center', value: 'qnt' },
                     { text: 'Qnt Picked', sortable: false, align: 'center', value: 'qntPicked' },
-                    { text: 'Order ID', sortable: false, align: 'center', value: 'orderId' },
+                    { text: 'Document ID', sortable: false, align: 'center', value: 'orderNumDoc' },
                     { text: 'Entity', sortable: false, align: 'center', value: 'entity' }
                 ],
 

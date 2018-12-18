@@ -10,8 +10,8 @@
             <template slot="items" slot-scope="props">
                 <tr>
                     <td @click="handleCheckbox($event)"><v-checkbox v-model="props.selected" primary hide-details ></v-checkbox></td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.number }}</td>
-                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.numDoc }}</td>
+                    <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.id }}</td>                    
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.entity }}</td>
                     <td class="text-xs-center" @click="expanded[props.item.id] = !expanded[props.item.id]">{{ props.item.date }}</td>
                 </tr>
@@ -52,8 +52,8 @@
         expanded: {},
         selected: [],
         ordersHeaders: [
-            { text: '#', align: 'center', value: 'number' },
-            { text: 'id', align: 'center', value: 'id' },
+            { text: 'Document ID', align: 'center', value: 'numDoc' },  
+            { text: 'Order ID', align: 'center', value: 'id' },
             { text: 'Supplier', align: 'center', value: 'entity' },
             { text: 'Date', align: 'center', value: 'date' },
         ],
@@ -88,7 +88,7 @@
                     'Authorization': 'Bearer ' + this.$session.get('access'), 
                     'Content-Type': 'application/json',
                 },
-                data: `"SELECT CC.Id, CC.DataDoc, CC.Entidade FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CCS.Estado='P' AND CC.TipoDoc ='ECF'"`,
+                data: `"SELECT CC.Id, CC.NumDoc, CC.DataDoc, CC.Entidade FROM CabecCompras CC, CabecComprasStatus CCS WHERE CC.Id = CCS.IdCabecCompras AND CCS.Estado='P' AND CC.TipoDoc ='ECF'"`,
             }).then((response) => {
                 console.log("Suppliers Orders received with success.");
                 //console.log(response.data.DataSet.Table);
@@ -109,6 +109,7 @@
                     value: false,
                     number: i,
                     id: orders[i].Id,
+                    numDoc: orders[i].NumDoc,
                     date: s,
                     entity: orders[i].Entidade,
                     products: []

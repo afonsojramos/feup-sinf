@@ -45,7 +45,7 @@
                 headers: { 
                     'Content-Type': 'application/x-www-form-urlencoded' 
                 },
-                data: "grant_type=password&username=FEUP&password=qualquer1&company=DEMO&instance=Default&line=professional",
+                data: "grant_type=password&username=FEUP&password=qualquer1&company=GRAO&instance=Default&line=professional",
             }).then((response) => {
                 this.$session.set('type', response.data.token_type);
                 this.$session.set('access', response.data.access_token);
