@@ -128,15 +128,17 @@
 
             sendPickingWaveRequest () {
                 const [axios, docType] = [require('axios'), this.selected[0].orderTipoDoc];
-                let doc = { TipoDoc: docType, Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
+                let doc = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
+
+                console.log(this.selected);
 
                 this.selected.forEach(s => {
-                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: s.zone, Localizacao: s.zone, Quantidade: s.qnt, QPicked: s.qntPicked, LinhasDestino: [] });
+                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', LinhasDestino: [] });
                 });
 
                 if (docType === 'ECL') {
                     doc.LinhasOrigem.forEach(s => {
-                        s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Quantidade: s.QPicked });
+                        s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
                         delete s.QPicked; 
                     });
                     console.log(doc);
