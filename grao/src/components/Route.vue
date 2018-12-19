@@ -155,17 +155,14 @@
                 }
 
                 //TRANSFERÊNCIA DE ARMAZENS
-                //sendPickingWaveRequest();
-
-                if(type=="ECL"){
-                    this.$router.push({ name: "Client Orders" });
-                }else{
-                    this.$router.push({ name: "Supplier Orders" });
-                }
+                if (this.productsList[0].orderTipoDoc == "ECF")
+                    await this.sendPickingWaveRequest();
+                //await new Promise(resolve => setTimeout(resolve, 1000));     
                 
+                this.$router.replace('/home');
             },
 
-            sendPickingWaveRequest () {
+            async sendPickingWaveRequest () {
                 const [axios, docType] = [require('axios'), this.productsList[0].orderTipoDoc];
                 let doc = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
 
@@ -173,21 +170,21 @@
                     doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', ArmazemSugestao: `${s.zoneSuggestion}.${s.sectionSuggestion}`, LinhasDestino: [] });
                 });
 
-                if (docType === 'ECL') {
+                /* if (docType === 'ECL') {
                     doc.LinhasOrigem.forEach(s => {
                         s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
                         delete s.QPicked; delete s.ArmazemSugestao;
                     });
                 }
-                else if (docType === 'ECF') {
+                else if (docType === 'ECF') { */
                     doc.LinhasOrigem.forEach(s => {
                         s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: s.ArmazemSugestao, Localizacao: s.ArmazemSugestao, Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
                         delete s.QPicked; delete s.ArmazemSugestao;
                     });
-                }
+                //}
 
                 console.log('Sending picking wave request...');
-                axios({ 
+                await axios({ 
                     method: 'post', url: 'http://localhost:2018/WebApi/Inventario/Transferencias/CreateTransfer',
                     headers: { 'Authorization': `Bearer ${this.$session.get('access')}`, 'Content-Type': 'application/json' },
                     data: doc
@@ -196,15 +193,16 @@
                 .catch(err => console.log(err));
             },
 
-            sendTransDocRequest (order) {
+            async sendTransDocRequest (order) {
                 console.log("Transforming " + order.tipoDoc + " to " + order.tipoNewDoc);
                 const axios = require('axios');
                 var d = new Date();
                 console.log(order);
                 let typeURL = order.tipoDoc == "ECL" ? "Vendas" : "Compras";
                 let typeData = order.tipoDoc == "ECL" ? "DataVenc" : "DataIntroducao";
+                let serie = order.tipoDoc == "ECL" ? "B" : "A";
 
-                axios({
+                await axios({
                     method: 'post',
                     url: 'http://localhost:2018/WebApi/' + typeURL + '/Docs/TransformDocument/' + order.tipoDoc + '/' + order.serie + '/' + order.numDoc + '/000/true',
                     headers: { 
@@ -222,7 +220,9 @@
                 }).then((response) => {
                     console.log("Document Transformed");
                     //console.log(response.data.DataSet.Table);
-                }).catch(function (error){
+                    return response;
+                }).catch((error) => {
+                    console.log("Error transforming");
                     console.log(error);
                     return null;
                 });
