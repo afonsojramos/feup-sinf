@@ -93,7 +93,6 @@
                     this.fillTable(response.data.DataSet.Table);
                 })
                 .catch(function (error){
-                    this.$root.tokenRequest();
                     console.log(error);
                     return null;
                 });
