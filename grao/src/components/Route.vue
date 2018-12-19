@@ -122,24 +122,29 @@
             },
 
             sendPickingWaveRequest () {
-                const [axios, docType] = [require('axios'), this.selected[0].orderTipoDoc];
+                const [axios, docType] = [require('axios'), this.productsList[0].orderTipoDoc];
                 let doc = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
 
-                console.log(this.selected);
+                console.log(this.productsList);
 
-                this.selected.forEach(s => {
-                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', LinhasDestino: [] });
+                this.productsList.forEach(s => {
+                    console.log(s.ArmazemSugestao);
+                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', ArmazemSugestao: s.suggestion, LinhasDestino: [] });
                 });
 
                 if (docType === 'ECL') {
                     doc.LinhasOrigem.forEach(s => {
                         s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
-                        delete s.QPicked; 
+                        delete s.QPicked; delete s.ArmazemSugestao;
                     });
                     console.log(doc);
                 }
                 else if (docType === 'ECF') {
-                    // TODO: Dar handle a ECF.
+                    doc.LinhasOrigem.forEach(s => {
+                        s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: s.ArmazemSugestao, Localizacao: s.ArmazemSugestao, Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
+                        delete s.QPicked; delete s.ArmazemSugestao;
+                    });
+                    console.log(doc);
                 }
 
                 console.log('Sending picking wave request...');

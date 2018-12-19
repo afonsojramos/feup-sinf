@@ -148,7 +148,7 @@
 
         fillOrder(index, products){
             for(let i = 0; i < products.length; i++){  
-                let tempSection = products[i].Localizacao.split('.');   
+                let tempSection = products[i].ArmazemSugestao.split('.');   
 
                 var product = { 
                     artigo: products[i].Artigo,

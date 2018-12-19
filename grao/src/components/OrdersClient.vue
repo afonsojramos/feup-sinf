@@ -134,7 +134,7 @@
                     data: "\"SELECT CD.Id, CD.Entidade, CD.Serie, CD.NumDoc, CD.TipoDoc, A.Artigo, A.ArmazemSugestao, A.Descricao, LD.Localizacao, LD.Quantidade, A.STKActual FROM CabecDoc CD, LinhasDoc LD, Artigo A WHERE A.Artigo = LD.Artigo AND LD.IdCabecDoc = CD.Id AND CD.Id='" + orderId.toString() + "'\"",
                 }).then((response) => {
                     console.log("Client Order Products received with success.");
-                    console.log(index, response.data.DataSet.Table);
+                    //console.log(index, response.data.DataSet.Table);
                     this.fillOrder(index, response.data.DataSet.Table);
                 }).catch(function (error){
                     console.log(error);
@@ -145,7 +145,7 @@
 
             fillOrder(index, products){
                 for(let i = 0; i < products.length; i++){   
-                    let tempSection = products[i].Localizacao.split('.');
+                    let tempSection = products[i].ArmazemSugestao.split('.');
 
                     var product = { 
                         artigo: products[i].Artigo,
