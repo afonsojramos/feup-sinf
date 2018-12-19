@@ -122,8 +122,47 @@
             },
 
             async createPickingRequests () {
+                //TRANSFORMAÇAO DE DOCUMENTOS
+                let type;
+                let tempProd = this.productsList;
+                let tempOrders=[];
+                tempProd.sort((a, b) => (a.orderNumDoc > b.orderNumDoc) ? 1 : ((b.orderNumDoc > a.orderNumDoc) ? -1 : 0));
+
+                let lastNumDoc = -1;
+                for(let i = 0; i < tempProd.length; i++){
+                    if(tempProd[i].orderNumDoc != lastNumDoc){
+
+                        let tipoDocTemp = tempProd[i].orderTipoDoc == "ECL" ? "GR" : "VGR";
+                        let tipoEntidadeTemp = tempProd[i].orderTipoDoc == "ECL" ? "C" : "F";
+                        let type = tempProd[i].orderTipoDoc;
+                        
+                        let order = {
+                            numDoc: tempProd[i].orderNumDoc,
+                            tipoDoc: tempProd[i].orderTipoDoc,
+                            tipoNewDoc: tipoDocTemp,
+                            serie: tempProd[i].orderSerie,
+                            entidade: tempProd[i].entity,
+                            tipoEntidade: tipoEntidadeTemp
+                        }
+
+                        tempOrders.push(order);
+                        lastNumDoc = tempProd[i].orderNumDoc;
+                    }
+                }
+
+                for(let j = 0; j < tempOrders.length; j++){
+                    await this.sendTransDocRequest(tempOrders[j]);
+                }
+
+                //TRANSFERÊNCIA DE ARMAZENS
                 //sendPickingWaveRequest();
-                sendTransDocRequest();
+
+                if(type=="ECL"){
+                    this.$router.push({ name: "Client Orders" });
+                }else{
+                    this.$router.push({ name: "Supplier Orders" });
+                }
+                
             },
 
             sendPickingWaveRequest () {
@@ -162,25 +201,28 @@
                 .catch(err => console.log('Eu sei que isto deu erro, ainda não sei a sintaxe da query de ECL/ECF. ~Miguel'));
             },
 
-            sendTransDocRequest () {
-                console.log("Transforming Document...");
+            sendTransDocRequest (order) {
+                console.log("Transforming " + order.tipoDoc + " to " + order.tipoNewDoc);
                 const axios = require('axios');
                 var d = new Date();
-                console.log(this.products[0]);
+                console.log(order);
+                let typeURL = order.tipoDoc == "ECL" ? "Vendas" : "Compras";
+                let typeData = order.tipoDoc == "ECL" ? "DataVenc" : "DataIntroducao";
+
                 axios({
                     method: 'post',
-                    url: 'http://localhost:2018/WebApi/Compras/Docs/TransformDocument/' + this.products[0].orderTipoDoc + '/' + this.products[0].orderSerie + '/' + this.products[0].orderNumDoc + '/000/true',
+                    url: 'http://localhost:2018/WebApi/' + typeURL + '/Docs/TransformDocument/' + order.tipoDoc + '/' + order.serie + '/' + order.numDoc + '/000/true',
                     headers: { 
                         'Authorization': 'Bearer ' + this.$session.get('access'), 
                         'Content-Type': 'application/json',
                     },
                     data: {
-                        "Tipodoc": this.products[0].orderTipoDoc == "ECL" ? "GR" : "VGR",
-                        "Serie": this.products[0].orderSerie,
-                        "Entidade": this.products[0].orderSerie,
-                        "TipoEntidade": this.products[0].orderTipoDoc == "ECL" ? "C" : "F",
+                        "Tipodoc": order.tipoNewDoc,
+                        "Serie": order.serie,
+                        "Entidade": order.entidade,
+                        "TipoEntidade": order.tipoEntidade,
                         "DataDoc": d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear(),
-                        "DataVenc": d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear()
+                        typeData: d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear()
                     },
                 }).then((response) => {
                     console.log("Document Transformed");
