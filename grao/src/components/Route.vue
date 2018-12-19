@@ -96,7 +96,7 @@
             },
 
             createTables(products) {
-                let [lastZone, lastID, j] = ['', -1, 0];
+                let [lastZone, lastId, j] = ['', -1, 0];
                 for(let i = 0; i < products.length; i++){
                     products[i].idProduct = j;
                     products[i].qntPicked = products[i].qnt;
