@@ -40,7 +40,7 @@
                             <v-card-actions>
                                 <v-spacer></v-spacer>
                                 <v-btn color="primary" round dark @click="dialog = false">No</v-btn>
-                                <v-btn color="primary" round dark @click="sendPickingWaveRequest(), dialog = false">Yes</v-btn>
+                                <v-btn color="primary" round dark @click="createPickingRequests(), dialog = false">Yes</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
@@ -121,6 +121,11 @@
                 }
             },
 
+            async createPickingRequests () {
+                //sendPickingWaveRequest();
+                sendTransDocRequest();
+            },
+
             sendPickingWaveRequest () {
                 const [axios, docType] = [require('axios'), this.productsList[0].orderTipoDoc];
                 let doc = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
@@ -155,6 +160,35 @@
                 })
                 .then(response => console.log(`Picking wave created: ${response}`))
                 .catch(err => console.log('Eu sei que isto deu erro, ainda não sei a sintaxe da query de ECL/ECF. ~Miguel'));
+            },
+
+            sendTransDocRequest () {
+                console.log("Transforming Document...");
+                const axios = require('axios');
+                var d = new Date();
+                console.log(this.products[0]);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:2018/WebApi/Compras/Docs/TransformDocument/' + this.products[0].orderTipoDoc + '/' + this.products[0].orderSerie + '/' + this.products[0].orderNumDoc + '/000/true',
+                    headers: { 
+                        'Authorization': 'Bearer ' + this.$session.get('access'), 
+                        'Content-Type': 'application/json',
+                    },
+                    data: {
+                        "Tipodoc": this.products[0].orderTipoDoc == "ECL" ? "GR" : "VGR",
+                        "Serie": this.products[0].orderSerie,
+                        "Entidade": this.products[0].orderSerie,
+                        "TipoEntidade": this.products[0].orderTipoDoc == "ECL" ? "C" : "F",
+                        "DataDoc": d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear(),
+                        "DataVenc": d.getDay() + "/" + d.getMonth() + "/" + d.getFullYear()
+                    },
+                }).then((response) => {
+                    console.log("Document Transformed");
+                    //console.log(response.data.DataSet.Table);
+                }).catch(function (error){
+                    console.log(error);
+                    return null;
+                });
             }
         }
     }

@@ -87,7 +87,7 @@
                         'Authorization': 'Bearer ' + this.$session.get('access'), 
                         'Content-Type': 'application/json',
                     },
-                    data: `"SELECT CD.Id, CD.Data, CD.Entidade, CD.NumDoc, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CD.TipoDoc ='ECL'"`,
+                    data: `"SELECT CD.Id, CD.Data, CD.Entidade, CD.NumDoc, CDS.Estado FROM CabecDoc CD, CabecDocStatus CDS WHERE CDS.IdCabecDoc = CD.Id AND CDS.Estado='P' AND CD.TipoDoc ='ECL'"`,
                 }).then((response) => {
                     console.log("Clients Orders received with success.");
                     this.fillTable(response.data.DataSet.Table);
