@@ -133,7 +133,7 @@
                     'Authorization': 'Bearer ' + this.$session.get('access'),
                     'Content-Type': 'application/json',
                 },
-                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, CC.Serie, CC.NumDoc, CC.TipoDoc, LC.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A WHERE A.Artigo = LC.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
+                data: "\"SELECT CC.Id, CC.Entidade, A.Artigo, A.Descricao, A.ArmazemSugestao, CC.Serie, CC.NumDoc, CC.TipoDoc, LC.Localizacao, LC.Quantidade, A.STKActual FROM CabecCompras CC, LinhasCompras LC, Artigo A WHERE A.Artigo = LC.Artigo AND LC.IdCabecCompras = CC.Id AND CC.Id='" + orderId.toString() + "'\"",
             })
             .then(response => {
                 console.log("Supplier Order Products received with success.");
@@ -155,6 +155,7 @@
                     descricao: products[i].Descricao, 
                     qnt: products[i].Quantidade,
                     stock: products[i].STKActual,
+                    suggestion: products[i].ArmazemSugestao,
                     zone: tempSection[0],
                     section: tempSection[1],
                     shelf: tempSection[2],
