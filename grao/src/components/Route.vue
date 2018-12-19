@@ -67,17 +67,11 @@
                     { text: 'Document ID', sortable: false, align: 'center', value: 'orderNumDoc' },
                     { text: 'Entity', sortable: false, align: 'center', value: 'entity' }
                 ],
-
                 zones: []
-
             }
         },
         created () {
-            if (!this.$session.exists()) {
-                this.$router.replace({ name: 'Login' })
-            } else 
-                this.prepareRoute();
-                
+            !this.$session.exists() ? this.$router.replace({ name: 'Login' }) : this.prepareRoute();
         },
         methods: {
             prepareRoute() {
@@ -97,17 +91,12 @@
                     tempProd.sort((a, b) => (a.section > b.section) ? 1 : ((b.section > a.section) ? -1 : 0));
                     console.log(tempProd);
                     this.createTables(tempProd);
-
-
                } else 
                     alert('No values');
-
             },
 
             createTables(products) {
-                let lastZone = '';
-                let lastId = -1;
-                let j = 0;
+                let [lastZone, lastID, j] = ['', -1, 0];
                 for(let i = 0; i < products.length; i++){
                     products[i].idProduct = j;
                     products[i].qntPicked = products[i].qnt;
@@ -137,11 +126,15 @@
                 let doc = { TipoDoc: docType, Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
 
                 this.selected.forEach(s => {
-                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: s.zone, Quantidade: s.qntPicked, LinhasDestino: [] });
+                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: s.zone, Localizacao: s.zone, Quantidade: s.qnt, QPicked: s.qntPicked, LinhasDestino: [] });
                 });
 
                 if (docType === 'ECL') {
-                    // TODO: Dar handle a ECL.
+                    doc.LinhasOrigem.forEach(s => {
+                        s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Quantidade: s.QPicked });
+                        delete s.QPicked; 
+                    });
+                    console.log(doc);
                 }
                 else if (docType === 'ECF') {
                     // TODO: Dar handle a ECF.
