@@ -17,7 +17,7 @@
                         class="elevation-0">
                         <template slot="items" slot-scope="props">
                             <td> <v-checkbox v-model="props.selected" primary hide-details></v-checkbox> </td>
-                            <td class="text-xs-center">{{ props.item.section }}</td>
+                            <td class="text-xs-center">{{ props.item.sectionSuggestion }}</td>
                             <td class="text-xs-center">{{ props.item.artigo }}</td>
                             <td class="text-xs-center">{{ props.item.qnt}}</td>
                             <td> <v-text-field v-model=props.item.qntPicked></v-text-field>
@@ -88,7 +88,7 @@
                     //     { value: false, zone: 'A1', section: 'J', shelf: 2, product: 'Sed', order_id: 'JRGE0YK4', client: 'Dolor', qnt: 5 },
                     //     { value: false, zone: 'A1', section: 'B', shelf: 1, product: 'Lorem', order_id: 'RDA21DA1', client: 'Sit', qnt: 3 }
                     // ];
-                    tempProd.sort((a, b) => (a.section > b.section) ? 1 : ((b.section > a.section) ? -1 : 0));
+                    tempProd.sort((a, b) => (a.sectionSuggestion > b.sectionSuggestion) ? 1 : ((b.sectionSuggestion > a.sectionSuggestion) ? -1 : 0));
                     console.log(tempProd);
                     this.createTables(tempProd);
                } else 
@@ -102,17 +102,17 @@
                     products[i].qntPicked = products[i].qnt;
                     this.productsList.push(products[i]);
 
-                    if(products[i].zone != lastZone){
+                    if(products[i].zoneSuggestion != lastZone){
                         
                         let zone = {
                             id: lastId + 1,
-                            name: products[i].zone,
+                            name: products[i].zoneSuggestion,
                             products: [
                                 products[i]
                             ]
                         }
                         this.zones.push(zone);
-                        lastZone = products[i].zone;
+                        lastZone = products[i].zoneSuggestion;
                         lastId++;
                     } else {
                         this.zones[lastId].products.push(products[i]);
@@ -122,19 +122,16 @@
             },
 
             async createPickingRequests () {
-                //sendPickingWaveRequest();
-                sendTransDocRequest();
+                this.sendPickingWaveRequest();
+                //sendTransDocRequest();
             },
 
             sendPickingWaveRequest () {
                 const [axios, docType] = [require('axios'), this.productsList[0].orderTipoDoc];
                 let doc = { TipoDoc: 'TRA', Serie: 'A', Data: new Date().toLocaleDateString(), Moeda: 'EUR', LinhasOrigem: [] };
 
-                console.log(this.productsList);
-
                 this.productsList.forEach(s => {
-                    console.log(s.ArmazemSugestao);
-                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', ArmazemSugestao: s.suggestion, LinhasDestino: [] });
+                    doc.LinhasOrigem.push({ Artigo: s.artigo, Armazem: `${s.zone}.${s.section}`, Localizacao: `${s.zone}.${s.section}`, Lote: '', Quantidade: s.qnt, QPicked: s.qntPicked, INV_EstadoOrigem: 'DISP', ArmazemSugestao: `${s.zoneSuggestion}.${s.sectionSuggestion}`, LinhasDestino: [] });
                 });
 
                 if (docType === 'ECL') {
@@ -142,14 +139,12 @@
                         s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: 'A5.Z', Localizacao: 'A5.Z', Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
                         delete s.QPicked; delete s.ArmazemSugestao;
                     });
-                    console.log(doc);
                 }
                 else if (docType === 'ECF') {
                     doc.LinhasOrigem.forEach(s => {
                         s.LinhasDestino.push({ Artigo: s.Artigo, Armazem: s.ArmazemSugestao, Localizacao: s.ArmazemSugestao, Lote: '', Quantidade: s.QPicked, INV_EstadoDestino: 'DISP' });
                         delete s.QPicked; delete s.ArmazemSugestao;
                     });
-                    console.log(doc);
                 }
 
                 console.log('Sending picking wave request...');
@@ -158,8 +153,8 @@
                     headers: { 'Authorization': `Bearer ${this.$session.get('access')}`, 'Content-Type': 'application/json' },
                     data: doc
                 })
-                .then(response => console.log(`Picking wave created: ${response}`))
-                .catch(err => console.log('Eu sei que isto deu erro, ainda não sei a sintaxe da query de ECL/ECF. ~Miguel'));
+                .then(response => console.log('Picking wave created!'))
+                .catch(err => console.log(err));
             },
 
             sendTransDocRequest () {

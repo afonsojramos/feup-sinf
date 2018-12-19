@@ -148,7 +148,8 @@
 
         fillOrder(index, products){
             for(let i = 0; i < products.length; i++){  
-                let tempSection = products[i].ArmazemSugestao.split('.');   
+                let tempSection = products[i].Localizacao.split('.'); 
+                let tempSectionSuggestion = products[i].ArmazemSugestao.split('.');  
 
                 var product = { 
                     artigo: products[i].Artigo,
@@ -157,6 +158,8 @@
                     stock: products[i].STKActual,
                     suggestion: products[i].ArmazemSugestao,
                     zone: tempSection[0],
+                    zoneSuggestion: tempSectionSuggestion[0],
+                    sectionSuggestion: tempSectionSuggestion[1],
                     section: tempSection[1],
                     shelf: tempSection[2],
                     entity: products[i].Entidade,
