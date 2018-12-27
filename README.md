@@ -53,18 +53,18 @@ npm run build --report
 #### Login
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/login.png" width="800">
 
-#### Login
+#### Menu
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/menu.png" width="800">
 
-#### Login
+#### Map
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/map.png" width="800">
 
 ### Core Views
-#### Login
+#### Client Orders
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/client-orders.png" width="800">
 
-#### Login
+#### Supplier Orders
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/supplier-orders.png" width="800">
 
-#### Login
+#### Picking Route
 <img src="https://github.com/afonsojramos/feup-sinf/blob/master/docs/screenshots/picking-route.png" width="800">
