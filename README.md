@@ -14,20 +14,20 @@
 ### Project setup
 ``` bash
 cd grao
-yarn install
+npm install
 ```
 
 #### Compiles and hot-reloads for development
 ``` bash
-yarn run dev
+npm run dev
 ```
 
 #### Compiles and minifies for production
 ``` bash
-yarn run build
+npm run build
 
 # build for production and view the bundle analyzer report
-yarn run build --report
+npm run build --report
 ```
 
 #### Customize configuration
